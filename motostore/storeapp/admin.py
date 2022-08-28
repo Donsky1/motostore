@@ -7,17 +7,31 @@ class PhotoInLine(admin.StackedInline):
     model = models.Motorcycle_images
 
 
-class MotorcyclesAdmin(admin.ModelAdmin):
+class MotorcycleAdmin(admin.ModelAdmin):
+    list_display = [field.name for field in models.Motorcycle._meta.get_fields()
+                    if field.name != 'motorcycle_images' if field.name != 'comment']
+    list_display_links = ['id', 'mark_info', ]
     inlines = [PhotoInLine]
+
+
+class ColorAdmin(admin.ModelAdmin):
+    fields = ('name', 'color_hex', 'color_view_')
+    readonly_fields = ('color_view_',)
+    list_display = ('id', 'name', 'color_hex', 'color_view')
+    list_display_links = ('id', 'name', 'color_hex', 'color_view')
+
+
+class Motorcycle_imagesAdmin(admin.ModelAdmin):
+    list_display = ('image', 'moto')
+    list_display_links = ('image', 'moto')
 
 
 admin.site.register(models.Marks)
 admin.site.register(models.Moto_models)
-admin.site.register(models.Engine)
-admin.site.register(models.Cylinder_amount)
-admin.site.register(models.Gear)
 admin.site.register(models.Moto_type)
-admin.site.register(models.Stroke_amount)
+admin.site.register(models.Color, ColorAdmin)
+admin.site.register(models.City)
 admin.site.register(models.Transmission)
 admin.site.register(models.Displacement)
-admin.site.register(models.Motorcycles, MotorcyclesAdmin)
+admin.site.register(models.Motorcycle, MotorcycleAdmin)
+admin.site.register(models.Motorcycle_images, Motorcycle_imagesAdmin)
