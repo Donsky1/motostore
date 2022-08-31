@@ -1,9 +1,7 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.views import generic
 
 
 # Create your views here.
-def news(request, value):
-    print(request)
-    print(value)
-    return HttpResponse(f'Hello, motorcycles store | {value}')
+class NewsView(generic.TemplateView):
+    template_name = 'newsapp/index-news.html'
