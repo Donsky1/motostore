@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}О нас{% endblock %}
+
+{% block content %}
+<section class="section-sm">
+	<div class="container">
+		<div class="columns is-multiline">
+			<div class="column is-12">
+				<div class="title-bordered mb-5 is-flex is-align-items-center">
+					<h1 class="h4">Захотел — купил, захотел — продал</h1>
+					<ul class="list-inline social-icons ml-auto mr-3 is-hidden-mobile">
+						<li class="list-inline-item"><a href="#"><i class="ti-facebook"></i></a>
+						</li>
+						<li class="list-inline-item"><a href="#"><i class="ti-twitter-alt"></i></a>
+						</li>
+						<li class="list-inline-item"><a href="#"><i class="ti-linkedin"></i></a>
+						</li>
+						<li class="list-inline-item"><a href="#"><i class="ti-github"></i></a>
+						</li>
+					</ul>
+				</div>
+				<img src="{% static 'images/author-full.jpg' %}" class="w-100 mb-4 rounded-lg" alt="author">
+				<div class="content">
+					<p>Motorcycle Store помогает купить или продать машину. Это не просто сайт, где каждый может найти или разместить объявление (хотя, конечно, каждый может), задача Motorcycle Store — оградить человека от неприятностей, связанных с куплей-продажей автомобиля.</p>
+					<p>Мы считаем, что удобством интерфейса или количеством предложений уже никого не удивишь. Это как кондиционер или электрические стеклоподъемники — должно быть в базовой комплектации. Поэтому Motorcycle Store заботится о душевном спокойствии пользователей и работает для того, чтобы сделка была в радость.</p>
+					<div class="quote"> <i class="ti-quote-left"></i>
+						<div>
+							<p>У нас можно разместить полноценное объявление с помощью смартфона, госномера на снимках закрашиваются автоматически, юридическая чистота машин проверяется в системе «Автокод», услуга «Умный номер» защищает от спама и звонков перекупщиков, есть стандартная, проверенная юристами форма договора купли-продажи. И мы ещё не закончили.</p> <span class="quote-by"> -Администрация</span>
+						</div>
+					</div>
+					<hr>
+					<h4 id="my-skills--experiences">Наши желания:</h4>
+					<p>Мы хотим, чтобы авто-мото рынок стал более безопасным и комфортным для обычного человека. Motorcycle Store, к которому мы стремимся, это место, куда можно прийти без особого опыта и быть уверенным, что купишь желаемую машину в хорошем состоянии или продашь свою по хорошей цене.</p>
+					</div>
+			</div>
+		</div>
+	</div>
+</section>
+{% endblock%}

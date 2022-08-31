@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{ object.model_info }}{% endblock %}
+{% block content %}
+<section class="section">
+	<div class="container">
+		<article class="columns is-multiline mb-5 is-justify-content-center">
+			<div class="column is-10-desktop mb-4">
+				<h1 class="h2 mb-3">{{ object.mark_info }} {{ object.model_info }}</h1>
+				<ul class="list-inline post-meta mb-3">
+					<li class="list-inline-item"><i class="ti-user mr-2"></i>
+						<a href="author.html">Продавец: John Doe</a>
+					</li>
+					<li class="list-inline-item">Дата : {{ object.created_at|date:"d M Y" }}</li>
+					<li class="list-inline-item">Категории : <a href="#!" class="ml-1">Photobooth </a>
+					</li>
+					<li class="list-inline-item">Тэги : <a href="#!" class="ml-1">Booth </a> ,<a href="#!" class="ml-1">Image </a>
+					</li>
+				</ul>
+				<div align="right">Цена:
+					  <div style="color: red; font-size: 30px; font-weight: bold;">{{ object.price}} ₽</div></div>
+			</div>
+			<div class="column is-10 mb-3">
+				<div class="post-slider">
+					{% for img in object.motorcycle_images_set.all %}
+						<a href="{{ img.image.url }}"><img src="{{ img.image.url }}" class="" alt="post-thumb"></a>
+					{% endfor %}
+				</div>
+			</div>
+			<div class="column is-10-desktop">
+				<div class="content">
+					<table>
+						<tbody>
+						  <tr>
+							<td >Тип мотоцикла: {{ object.moto_type}}</td>
+							<td>Объем двигателя, : {{ object.displacement}} см³</td>
+							<td>Цвет: {{ object.color}}</td>
+						  </tr>
+						  <tr>
+							<td>Пробег: {{ object.mileage}} км.</td>
+							<td>Мощность, л.с: {{ object.horse_power}}</td>
+							<td>Коробка передач: {{ object.transmission}}</td>
+						  </tr>
+						</tbody>
+					</table>
+					<p class="detail_p">Комментарий продавца:</p>
+					<p class="detail_p">{{ object.comment|slice:"1:-1" }}</p>
+				</div>
+			</div>
+		</article>
+	</div>
+</section>
+{% endblock %}
