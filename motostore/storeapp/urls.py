@@ -10,4 +10,6 @@ urlpatterns = [
         path('about/', views.AboutView.as_view(), name='about'),
         path('contact/', views.ContactView.as_view(), name='contact'),
         path('terms/', views.TermsView.as_view(), name='terms'),
+        path('motorcycles/<str:tag>', views.TypeMotoView.as_view(), name='types-motorcycles'),
+        path('test/', views.TestView.as_view(), name='test'),
 ]
