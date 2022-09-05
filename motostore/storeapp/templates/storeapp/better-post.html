@@ -1,0 +1,23 @@
+<div class="widget">
+    <h5 class="widget-title"><span>Часто просматриваемые</span></h5>
+    <!-- post-item -->
+    <ul class="list-unstyled widget-list">
+        {% for motorcycle in motorcycles|dictsortreversed:"rate"|slice:":5" %}
+           <li class="media widget-post is-align-items-center">
+               {% for image in motorcycle.motorcycle_images_set.all|slice:":1" %}
+                  <a href="{% url 'store_app:motorcycle_detail' motorcycle.id %}">
+                     <img loading="lazy" src="{{ image.image.url }}">
+                  </a>
+               {% endfor %}
+              <div class="ml-4">
+                 <h6 class="h6 mb-0"><a href="{% url 'store_app:motorcycle_detail' motorcycle.id %}">{{ motorcycle.mark_info }} {{ motorcycle.model_info }} {{ motorcycle.color }}</a></h6>
+                 <small>
+                     <div>Объем / мощность: {{ motorcycle.displacement }} см³ / {{ motorcycle.horse_power }} л.с.</div>
+                     <div>Пробег: {{ motorcycle.mileage }} км</div>
+                     <div>Цена: {{ motorcycle.price }} ₽</div>
+                 </small>
+              </div>
+           </li>
+        {% endfor %}
+    </ul>
+ </div>

@@ -17,11 +17,11 @@
 						</div>
 					</div>
 					<div class="column is-8-tablet">
-						<h3 class="h5"><a class="post-title" href="{% url 'store_app:motorcycle_detail' motorcycle.id %}">{{ motorcycle.mark_info }} {{ motorcycle.model_info }} {{ motorcycle.color }}</a></h3>
+						<h3 class="h5"><a class="post-title" href="{% url 'store_app:motorcycle_detail' motorcycle.id %}">{{ motorcycle.mark_info }} {{ motorcycle.model_info }}</a></h3>
 						<ul class="list-inline post-meta mb-2">
 							<li class="list-inline-item"><i class="ti-user mr-2"></i><a href="author.html">John Doe</a>
 							</li>
-<!--							<li class="list-inline-item">{{ motorcycle.created_at|date:"d M Y h:m:s" }}</li>-->
+<!--							<li class="list-inline-item">{{ motorcycle.created_at|date:"d M Y" }}</li>-->
 							<li class="list-inline-item">Категория : <a href="#!" class="ml-1"> {{ motorcycle.moto_type }}</a></li>
 							<li class="list-inline-item">Город: {{ motorcycle.city }}</li>
 <!--							<li class="list-inline-item">Tags : <a href="#!" class="ml-1">{{ motorcycle.moto_type }} </a> ,<a href="#!" class="ml-1">Image </a></li>-->

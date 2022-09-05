@@ -12,6 +12,9 @@ class MotorcycleAdmin(admin.ModelAdmin):
                     if field.name != 'motorcycle_images' if field.name != 'comment']
     list_display_links = ['id', 'mark_info', ]
     inlines = [PhotoInLine]
+    list_editable = ('status',)
+    list_filter = ('city', )
+    readonly_fields = ('rate', )
 
 
 class ColorAdmin(admin.ModelAdmin):

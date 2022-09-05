@@ -96,6 +96,7 @@ class Motorcycle(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Дата обновления')
     comment = models.TextField(default='не указано ...', verbose_name='Комментарий')
+    rate = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return '{} {} _ID: {}'.format(self.mark_info, self.model_info, self.id)
@@ -111,4 +112,10 @@ class Motorcycle_images(models.Model):
 
     def image_tag(self):
         if self.image:
-            return format_html('<img src="{}" width="150" height="150" />'.format(self.image.url))
+            return format_html('<a href="{}">'
+                               '<img src="{}" width="150" height="150" />'
+                               '</a>'.format(self.image.url, self.image.url))
+
+    def __str__(self):
+        return self.image_tag()
+
