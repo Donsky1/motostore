@@ -1,0 +1,42 @@
+<div class="widget">
+    <h5 class="widget-title"><span>Фильтр</span></h5>
+
+    <form method="get" action="{% url 'store_app:filter-motorcycles' %}">
+        <select class="custom-select my-1 mr-sm-2" name="city">
+            <option disabled selected>Выберите город</option>
+            {% for city in cities %}
+                <option value="{{ city }}">{{ city }}</option>
+            {% endfor %}
+        </select>
+
+        <select class="custom-select my-1 mr-sm-2" name="mark">
+            <option disabled selected>Выберите марку</option>
+            {% for mark in marks %}
+                <option value="{{ mark }}">{{ mark }}</option>
+            {% endfor %}
+        </select>
+
+        <select class="custom-select my-1 mr-sm-2" name="model">
+            <option disabled selected>Выберите модель</option>
+            {% for model in models %}
+                <option value="{{ model }}">{{ model }}</option>
+            {% endfor %}
+        </select>
+
+        <select class="custom-select my-1 mr-sm-2" name="color">
+            <option disabled selected>Выберите цвет</option>
+            {% for color in colors %}
+                <option value="{{ color }}">{{ color }}</option>
+            {% endfor %}
+        </select>
+        <div class="row">
+            <div class="col">
+                <input type="number" class="form-control" placeholder="Цена от" name="price_from" min="1" step="1">
+            </div>
+            <div class="col">
+                <input type="number" class="form-control" placeholder="Цена до" name="price_to" min="1" step="1">
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary my-1">Поиск</button>
+    </form>
+ </div>

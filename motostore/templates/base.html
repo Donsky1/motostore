@@ -6,6 +6,9 @@
    <meta charset="utf-8">
    <title>Motorcycle Store - {% block title %}{% endblock %}</title>
 
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
    <!-- mobile responsive meta -->
    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
    <meta name="description" content="Classified motorcycle store">
@@ -46,7 +49,15 @@
                <a class="navbar-link">Главная <small class="ti-angle-down ml-1"></small></a>
                <div class="navbar-dropdown">
                   <a class="navbar-item" href="{% url 'store_app:index' %}">Торговая площадка</a>
-                  <a class="navbar-item" href="{% url 'news_app:index_news' %}">Новости</a>
+                  <a class="navbar-item" href="{% url 'store_app:create-offer' %}">Разместить объявление</a>
+               </div>
+            </li>
+
+            <li class="navbar-item has-dropdown is-hoverable has-active">
+               <a class="navbar-link" href="{% url 'news_app:index_news' %}">Новости <small class="ti-angle-down ml-1"></small></a>
+               <div class="navbar-dropdown">
+                  <a class="navbar-item" href="#">Опубликовать новость</a>
+
                </div>
             </li>
 
@@ -60,13 +71,6 @@
 
             <li class="navbar-item">
                <a class="navbar-link is-arrowless" href="{% url 'store_app:terms' %}">Условия</a>
-            </li>
-
-            <li class="navbar-item">
-               <select class="m-2 is-borderless" id="select-language">
-                  <option id="en" value="about/" selected>En</option>
-                  <option id="fr" value="fr/about/">Fr</option>
-               </select>
             </li>
 
             <li class="navbar-item">
@@ -147,5 +151,14 @@
 
    <!-- Main Script -->
    <script src="/static/js/script.js"></script>
+
+   <!--  jQuery first, then Popper.js, then Bootstrap JS -->
+   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
 </html>
