@@ -5,6 +5,7 @@ from .models import StoreAppUser
 from django.urls import reverse_lazy
 from django.shortcuts import redirect
 from storeapp.models import Motorcycle
+from newsapp.models import News
 
 
 # Create your views here.
@@ -34,4 +35,5 @@ class ProfileView(generic.DetailView):
         user = StoreAppUser.objects.get(pk=self.kwargs['pk'])
         context = super(ProfileView, self).get_context_data(**kwargs)
         context['offers'] = Motorcycle.objects.filter(user=user)
+        context['news'] = News.objects.filter(author=user)
         return context

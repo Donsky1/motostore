@@ -63,7 +63,7 @@
             <li class="navbar-item has-dropdown is-hoverable has-active">
                <a class="navbar-link" href="{% url 'news_app:index_news' %}">Новости <small class="ti-angle-down ml-1"></small></a>
                <div class="navbar-dropdown">
-                  <a class="navbar-item" href="#">Опубликовать новость</a>
+                  <a class="navbar-item" href="{% url 'news_app:create_news' %}">Опубликовать новость</a>
                </div>
             </li>
             {% else %}

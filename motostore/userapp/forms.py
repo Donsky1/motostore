@@ -15,7 +15,6 @@ class StoreAppUserCreatingForm(UserCreationForm):
     password2 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Подтвердите пароль'}))
     email = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Email'}))
 
-
     class Meta:
             model = StoreAppUser
             fields = ('username', 'password1', 'password2', 'email',)

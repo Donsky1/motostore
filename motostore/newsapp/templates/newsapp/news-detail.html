@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Главная страница{% endblock %}
+
+{% block content %}
+
+<section class="section">
+	<div class="container">
+		<article class="columns is-multiline mb-5 is-justify-content-center">
+			<div class="column is-10-desktop mb-4">
+				<h1 class="h2 mb-3">{{ object.title }}</h1>
+				<ul class="list-inline post-meta mb-3">
+					<li class="list-inline-item"><i class="ti-user mr-2"></i><a href="{% url 'user_app:profile' object.author.id %}">{{ object.author }}</a>
+					</li>
+					<li class="list-inline-item">Дата : {{ object.created_at|date:"D d M Y"}}</li>
+					<li class="list-inline-item">Категории : <a href="#!" class="ml-1">{{ object.category }}</a>
+					</li>
+				</ul>
+			</div>
+			<div class="column is-12 mb-3">
+				<div class="post-slider">
+					<img src="{{ object.image.url }}" class="" alt="post-thumb">
+				</div>
+			</div>
+			<div class="column is-10-desktop">
+				<div class="content">
+					<p>Ссылка на источник: <a href="{{ object.link }}">{{ object.link }}</a></p>
+					<p>{{ object.text }}</p>
+				</div>
+			</div>
+		</article>
+	</div>
+</section>
+{% endblock %}
