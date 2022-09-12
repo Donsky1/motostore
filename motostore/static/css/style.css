@@ -77,6 +77,21 @@ h6, .h6 {
   transition: 0.2s ease;
   display: inline-block;
 }
+
+.btn-profile {
+  font-size: 14px;
+  font-family: "Open Sans", sans-serif;
+  text-transform: capitalize;
+  padding: 10px 25px;
+  border-radius: 50px;
+  border: 1px solid;
+  position: relative;
+  z-index: 1;
+  transition: 0.2s ease;
+  display: inline-block;
+  margin-left: 29px;
+}
+
 .btn:hover, .btn:active, .btn:focus {
   outline: 0;
   box-shadow: none !important;
@@ -1166,4 +1181,8 @@ a:hover {
 
 .detail_p {
     font-size: 16px;
+}
+
+.post-slider-news {
+    margin-bottom: 20px;
 }

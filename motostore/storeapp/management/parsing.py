@@ -5,6 +5,7 @@ from tqdm import tqdm
 
 from storeapp.models import Marks, Moto_models, Moto_type, Color, City, Transmission, Displacement, Motorcycle, \
     Motorcycle_images
+from userapp.models import StoreAppUser
 
 
 class Parsing:
@@ -91,6 +92,9 @@ class Parsing:
                 self.response['offers'][moto_number]['state']['image_urls'][img_number]['sizes']['1200x900'])
         return image_list_large
 
+    def _get_region(self, moto_number):
+        return self.response['offers'][moto_number]['seller']['location']['region_info']['name']
+
     @staticmethod
     def _save_image_and_return_path(motorcycle_id, n, image_link):
         img_path_save = f"media/images/{motorcycle_id}/{image_link.split('/')[-1]}_{n}.png"
@@ -158,6 +162,12 @@ class Parsing:
                     else:
                         transmission = Transmission.objects.get(name=transmission)
 
+                    city_name = self._get_region(moto_number)
+                    if city_name not in [city.name for city in City.objects.all()]:
+                        city = City.objects.create(name=city_name)
+                    else:
+                        city = City.objects.get(name=city_name)
+
                     mileage = self._get_mileage(moto_number)
                     horse_power = self._get_horse_power(moto_number)
                     price = self._get_price(moto_number)
@@ -171,13 +181,14 @@ class Parsing:
                     model_info=model_info,
                     moto_type=type_moto,
                     displacement=displacement,
-                    city=City.objects.first(),
+                    city=city,
                     color=color,
                     mileage=mileage,
                     horse_power=horse_power,
                     price=price,
                     transmission=transmission,
-                    comment=comment
+                    comment=comment,
+                    user=StoreAppUser.objects.get(pk=1)
                 )
 
                 # images processing block

@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'newsapp.apps.NewsappConfig',
     'storeapp.apps.StoreappConfig',
+    'userapp.apps.UserappConfig',
     'django_cleanup.apps.CleanupConfig',
 ]
 
@@ -134,3 +135,12 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = 'media/'
 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+
+
+LOGIN_REDIRECT_URL = '/'
+
+LOGOUT_REDIRECT_URL = '/'
+
+LOGIN_URL = '/users/login/'
+
+AUTH_USER_MODEL = 'userapp.StoreAppUser'

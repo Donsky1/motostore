@@ -45,6 +45,7 @@
          </button>
 
          <ul class="navbar-end navbar-menu" id="navigation">
+            {% if user.is_authenticated %}
             <li class="navbar-item has-dropdown is-hoverable has-active">
                <a class="navbar-link">Главная <small class="ti-angle-down ml-1"></small></a>
                <div class="navbar-dropdown">
@@ -52,26 +53,48 @@
                   <a class="navbar-item" href="{% url 'store_app:create-offer' %}">Разместить объявление</a>
                </div>
             </li>
+            {% else %}
+               <li class="navbar-item">
+                  <a class="navbar-link is-arrowless" href="{% url 'store_app:index' %}">Магазин</a>
+               </li>
+            {% endif %}
 
+            {% if user.is_authenticated %}
             <li class="navbar-item has-dropdown is-hoverable has-active">
                <a class="navbar-link" href="{% url 'news_app:index_news' %}">Новости <small class="ti-angle-down ml-1"></small></a>
                <div class="navbar-dropdown">
                   <a class="navbar-item" href="#">Опубликовать новость</a>
-
                </div>
             </li>
-
+            {% else %}
             <li class="navbar-item">
-               <a class="navbar-link is-arrowless" href="{% url 'store_app:about' %}">О проекте</a>
-            </li>
+                  <a class="navbar-link is-arrowless" href="{% url 'news_app:index_news' %}">Новости</a>
+               </li>
+            {% endif %}
 
-            <li class="navbar-item">
-               <a class="navbar-link is-arrowless" href="{% url 'store_app:contact' %}">Контакты</a>
+            <li class="navbar-item has-dropdown is-hoverable has-active">
+               <a class="navbar-link" href="{% url 'store_app:about' %}">О проекте <small class="ti-angle-down ml-1"></small></a>
+               <div class="navbar-dropdown">
+                  <a class="navbar-link is-arrowless" href="{% url 'store_app:contact' %}">Контакты</a>
+               </div>
             </li>
 
             <li class="navbar-item">
                <a class="navbar-link is-arrowless" href="{% url 'store_app:terms' %}">Условия</a>
             </li>
+
+            {% if user.is_authenticated %}
+               <li class="navbar-item has-dropdown is-hoverable has-active">
+                  <a class="navbar-link" href="{% url 'user_app:profile' pk=user.id %}"> {{ user }} <small class="ti-angle-down ml-1"></small></a>
+                  <div class="navbar-dropdown">
+                     <a class="navbar-link is-arrowless" href="{% url 'user_app:logout' %}">Выйти</a>
+                  </div>
+               </li>
+            {% else %}
+               <li class="navbar-item">
+                  <a class="navbar-link is-arrowless" href="{% url 'user_app:login' %}">Войти</a>
+               </li>
+            {% endif %}
 
             <li class="navbar-item">
                <button id="searchOpen" class="search-btn"><i class="ti-search"></i></button>
@@ -91,7 +114,6 @@
    </div>
 </header>
 <!-- /navigation -->
-
 {% block content %}{% endblock %}
 
  <footer class="section-sm pb-0 border-top border-default">

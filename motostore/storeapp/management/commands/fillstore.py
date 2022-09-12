@@ -6,7 +6,10 @@ import requests
 
 
 class Command(BaseCommand):
-    help = 'Parsing ads with motorcycles sales from auto.ru'
+    help = 'Parsing ads with motorcycles sales from auto.ru ' \
+           'You have need to add config file. ' \
+           'In this config file you must have cookies, headers from inspector code your browser' \
+           '(F12 - Network - listing/ - copy). Before parsing need to add superuser.'
 
     def handle(self, *args, **options):
         self.stdout.write('parsing start')
@@ -20,8 +23,16 @@ class Command(BaseCommand):
             'displacement_to': 1800,
             'catalog_filter': [
                 {
+                    'mark': 'BMW',
+                    'model': 'F_700_GS',
+                },
+                {
                     'mark': 'YAMAHA',
                     'model': 'XJ6',
+                },
+                {
+                    'mark': 'BMW',
+                    'model': 'F_650_GS',
                 },
                 # use a similar block if you want to add new group moto
                 # {
