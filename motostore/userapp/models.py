@@ -3,7 +3,6 @@ from django.contrib.auth.models import AbstractUser
 
 
 def user_directory_path(instance, filename):
-    # file will be uploaded to MEDIA_ROOT/<id>/<filename>
     return 'users/id{0}/{1}'.format(instance.id, filename)
 
 
