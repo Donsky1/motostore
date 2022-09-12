@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Профиль пользователя: {{ object.username }}{% endblock %}
+
+{% block content %}
+<section class="section-sm border-bottom">
+	<div class="container">
+		<div class="columns is-multiline is-align-items-center">
+			<div class="column is-12">
+				<div class="title-bordered mb-5 is-flex is-align-items-center">
+					<h1 class="h4">Пользователь: {{ object.username }}</h1>
+					<ul class="list-inline social-icons ml-auto mr-3 is-hidden-mobile">
+						<li class="list-inline-item"><a href="#"><i class="ti-facebook"></i></a>
+						</li>
+						<li class="list-inline-item"><a href="#"><i class="ti-twitter-alt"></i></a>
+						</li>
+						<li class="list-inline-item"><a href="#"><i class="ti-github"></i></a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="column is-3-tablet has-text-centered-mobile">
+				{% if object.avatar %}
+					<img loading="lazy" class="rounded-lg " src="{{ object.avatar.url }}">
+				{% else %}
+					<img loading="lazy" class="rounded-lg " src="{% static 'images/avatar300x300.png' %}">
+				{% endif %}
+			</div>
+			<div class="column is-9-tablet content has-text-centered-mobile">
+				<p>Онлайн: {{ object.is_active }}</p>
+				<p></p>
+				<p>Имя: {{ object.first_name }}</p>
+				<p>Фамилия: {{ object.last_name }}</p>
+				<p>Почта: {{ object.email }}</p>
+				<p>Телефон: {{ object.phone }}</p>
+				<p>Статус пользователя:
+				{% if object.is_author %} Ньюсмейкер {% endif %}
+				{% if object.is_staff %} Администрация {% else %} Пользователь {% endif %}
+				</p>
+				<p>О пользователе: {{ object.text }}</p>
+			</div>
+			<div>
+				<a href="#" class="btn-profile btn-outline-primary">Изменить профиль</a>
+			</div>
+
+			<div>
+				<a href="#" class="btn-profile btn-outline-primary">Generate token</a>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section class="section-sm">
+	<div class="container">
+		<div class="columns is-multiline">
+			<div class="column is-12">
+				<div class="title has-text-centered">
+					<h3 class="mb-5">Объявления автора {% if offers|length > 6 %}(<a href="{% url 'store_app:motorcycle-filter-user' user=object.username %}">{{  offers|length }}</a>){% endif %} </h3>
+				</div>
+			</div>
+			{% for motorcycle in offers|slice:":6" %}
+			<div class="column is-4-desktop is-6-tablet">
+				<li class="list-inline-item">Дата: {{ motorcycle.created_at|date:"D d M Y" }}</li>
+				<article class="mb-5">
+					<div class="post-slider slider-sm">
+						{% for image in motorcycle.motorcycle_images_set.all %}
+							<img loading="lazy" src="{{ image.image.url }}" class="" alt="post-thumb" style="width: 250px;">
+						{% endfor %}
+					</div>
+					<h3 class="h5"><a class="post-title" href="{% url 'store_app:motorcycle_detail' motorcycle.id %}>{{ motorcycle.mark_info }} {{ motorcycle.model_info }} {{ motorcycle.color }}</a></h3>
+					<ul class="list-inline post-meta mb-2">
+						<li class="list-inline-item">Объем: {{ motorcycle.displacement }} см³</li>
+						<li class="list-inline-item">Цвет: {{ motorcycle.color }}</li>
+						<li class="list-inline-item">Пробег: {{ motorcycle.mileage }} км</li>
+						<li class="list-inline-item">Цена: {{ motorcycle.price }} ₽</li>
+					</ul>
+					<p>{{ motorcycle.comment|slice:"2:60" }} …</p>	<a href="{% url 'store_app:motorcycle_detail' pk=motorcycle.id %}" class="btn btn-outline-primary">Подробнее...</a>
+				</article>
+			</div>
+			{% endfor %}
+	</div>
+	<div class="container">
+		<div class="columns is-multiline">
+			<div class="column is-12">
+				<div class="title has-text-centered">
+					<h2 class="mb-5">Новости автора</h2>
+				</div>
+			</div>
+			<div class="column is-4-desktop is-6-tablet">
+				<article class="mb-5">
+					<div class="post-slider slider-sm">
+						<img loading="lazy" src="images/post/post-6.jpg" class="" alt="post-thumb" style="width: 250px;">
+					</div>
+					<h3 class="h5"><a class="post-title" href="post-elements.html">Elements That You Can Use To Create A New Post
+							On This Template.</a></h3>
+					<ul class="list-inline post-meta mb-2">
+						<li class="list-inline-item"><i class="ti-user mr-2"></i><a href="author.html">John
+								Doe</a>
+						</li>
+						<li class="list-inline-item">Date : March 15, 2020</li>
+						<li class="list-inline-item">Categories :	<a href="#!" class="ml-1">Photography </a>
+						</li>
+						<li class="list-inline-item">Tags : <a href="#!" class="ml-1">Photo </a> ,<a href="#!" class="ml-1">Image </a>
+						</li>
+					</ul>
+					<p>Heading example Here is example of hedings. You can use this heading by following markdownify rules. …</p>	<a href="post-elements.html" class="btn btn-outline-primary">Continue Reading</a>
+				</article>
+			</div>
+	</div>
+</section>
+{% endblock %}

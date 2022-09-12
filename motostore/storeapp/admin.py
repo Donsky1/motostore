@@ -15,6 +15,7 @@ class MotorcycleAdmin(admin.ModelAdmin):
     list_editable = ('status',)
     list_filter = ('city', )
     readonly_fields = ('rate', )
+    ordering = ('updated_at', )
 
 
 class ColorAdmin(admin.ModelAdmin):

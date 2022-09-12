@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views import generic
@@ -88,7 +89,6 @@ class MotorcyclesFilterView(MotorcyclesView):
         color = self.request.GET.get('color')
         price_from = self.request.GET.get('price_from')
         price_to = self.request.GET.get('price_to')
-        print(price_from, price_to)
         response = Motorcycle.objects.all()
         if city:
             response = response.filter(city__name=city)
@@ -105,7 +105,18 @@ class MotorcyclesFilterView(MotorcyclesView):
         return response
 
 
-class CreateOfferView(generic.CreateView):
+class CreateOfferView(LoginRequiredMixin, generic.CreateView):
     model = Motorcycle
     fields = '__all__'
     template_name = 'storeapp/create-offer.html'
+
+
+class MotorcyclesFilterUserView(MotorcyclesView):
+    template_name = 'storeapp/index.html'
+
+    def get_queryset(self):
+        user = self.kwargs.get('user')
+        response = Motorcycle.objects.all()
+        if user:
+            response = response.filter(user__username=user)
+        return response

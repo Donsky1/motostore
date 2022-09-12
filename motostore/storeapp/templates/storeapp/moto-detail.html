@@ -9,13 +9,12 @@
 				<h1 class="h2 mb-3">{{ object.mark_info }} {{ object.model_info }}</h1>
 				<ul class="list-inline post-meta mb-3">
 					<li class="list-inline-item"><i class="ti-user mr-2"></i>
-						<a href="author.html">Продавец: John Doe</a>
+						<a href="{% url 'user_app:profile' object.user.id %}">Продавец: {{ object.user }}</a>
 					</li>
 					<li class="list-inline-item">Дата : {{ object.created_at|date:"d M Y" }}</li>
-					<li class="list-inline-item">Категории : <a href="#!" class="ml-1">Photobooth </a>
+					<li class="list-inline-item">Категория : <a href="{% url 'store_app:type-motorcycles' tag=object.moto_type %}" class="ml-1">{{ object.moto_type }} </a>
 					</li>
-					<li class="list-inline-item">Тэги : <a href="#!" class="ml-1">Booth </a> ,<a href="#!" class="ml-1">Image </a>
-					</li>
+					<li class="list-inline-item">Город : {{ object.city }}</li>
 				</ul>
 				<div align="right">Цена:
 					  <div style="color: red; font-size: 30px; font-weight: bold;">{{ object.price}} ₽</div></div>

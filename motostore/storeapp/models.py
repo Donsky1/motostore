@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.html import format_html
+from userapp.models import StoreAppUser
 
 
 def offer_directory_path(instance, filename):
@@ -96,6 +97,7 @@ class Motorcycle(models.Model):
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Дата обновления')
     comment = models.TextField(default='не указано ...', verbose_name='Комментарий')
     rate = models.PositiveIntegerField(default=0)
+    user = models.ForeignKey(StoreAppUser, on_delete=models.CASCADE)
 
     def __str__(self):
         return '{} {} _ID: {}'.format(self.mark_info, self.model_info, self.id)
