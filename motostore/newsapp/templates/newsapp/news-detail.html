@@ -13,7 +13,7 @@
 					<li class="list-inline-item"><i class="ti-user mr-2"></i><a href="{% url 'user_app:profile' object.author.id %}">{{ object.author }}</a>
 					</li>
 					<li class="list-inline-item">Дата : {{ object.created_at|date:"D d M Y"}}</li>
-					<li class="list-inline-item">Категории : <a href="#!" class="ml-1">{{ object.category }}</a>
+					<li class="list-inline-item">Категории : <a href="#!" class="ml-1">{{ object.get_category }}</a>
 					</li>
 				</ul>
 			</div>

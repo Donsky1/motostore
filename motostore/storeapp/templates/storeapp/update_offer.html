@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+  <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <hr>
+        {% if image_formset %}
+        {{ image_formset.management_form  }}
+            {% for img_field in image_formset %}
+            <table border="1px">
+                <tr>
+                    <td><a href="/media/{{ img_field.image.initial }}"><img src="/media/{{ img_field.image.initial }}" width="150" height="150" /></a></td>
+                    <td>{{ img_field }}</td>
+                </tr>
+            {% endfor %}
+            </table>
+        {% endif %}
+    <input type="submit" value="update">
+  </form>
+</body>
+</html>

@@ -20,11 +20,16 @@
 							<li class="list-inline-item"><i class="ti-user mr-2"></i><a href="{% url 'user_app:profile' article.author.id %}">{{ article.author }}</a>
 							</li>
 							<li class="list-inline-item">Дата : {{ article.created_at|date:"D d M Y"}}</li>
-							<li class="list-inline-item">Категории : <a href="#!" class="ml-1">{{ article.category }}</a>
+							<li class="list-inline-item">Категории : <a href="#!" class="ml-1">{{ article.get_category }}</a>
 							</li>
 
 						</ul>
-						<p>{{ article.text|slice:":150" }}</p> <a href="{% url 'news_app:news_detail' article.id %}" class="btn btn-outline-primary">Подробно...</a>
+						<p>{{ article.text|slice:":150" }}</p>
+						<a href="{% url 'news_app:news_detail' article.id %}" class="btn btn-outline-primary">Подробно...</a>
+						{% if request.user.id == article.author.id %}
+							<a href="{% url 'news_app:update_news' pk=article.id %}" class="btn btn-outline-primary">Редактировать</a>
+							<a href="{% url 'news_app:delete_news' pk=article.id %}" class="btn btn-outline-primary">Удалить</a>
+						{% endif %}
 					</div>
 				</article>
 				{% endfor %}

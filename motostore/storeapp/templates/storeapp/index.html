@@ -24,14 +24,18 @@
 <!--							<li class="list-inline-item">{{ motorcycle.created_at|date:"d M Y h:m:s" }}</li>-->
 							<li class="list-inline-item">Категория : <a href="{% url 'store_app:type-motorcycles' tag=motorcycle.moto_type %}" class="ml-1"> {{ motorcycle.moto_type }}</a></li>
 							<li class="list-inline-item">Город: {{ motorcycle.city }}</li>
-<!--							<li class="list-inline-item">Tags : <a href="#!" class="ml-1">{{ motorcycle.moto_type }} </a> ,<a href="#!" class="ml-1">Image </a></li>-->
 						</ul>
 						<div>Объем / мощность: {{ motorcycle.displacement }} см³ / {{ motorcycle.horse_power }} л.с.</div>
 						<div>Цвет: {{ motorcycle.color }}</div>
 						<div>Пробег: {{ motorcycle.mileage }} км</div><br>
 						<div class="PriceBlock">Цена: {{ motorcycle.price }} ₽</div><br>
 
-						<p>{{ motorcycle.comment|slice:"2:160" }} …</p> <a href="{% url 'store_app:motorcycle_detail' pk=motorcycle.id %}" class="btn btn-outline-primary">Подробнее...</a>
+						<p>{{ motorcycle.comment|slice:"2:160" }} …</p>
+						<a href="{% url 'store_app:motorcycle_detail' pk=motorcycle.id %}" class="btn btn-outline-primary">Подробнее...</a>
+						{% if request.user.id == motorcycle.user.id %}
+							<a href="{% url 'store_app:update-offer' pk=motorcycle.id %}" class="btn btn-outline-primary">Редактировать</a>
+							<a href="{% url 'store_app:delete-offer' pk=motorcycle.id %}" class="btn btn-outline-primary">Удалить</a>
+						{% endif %}
 					</div>
 				</article>
 				{% endfor %}

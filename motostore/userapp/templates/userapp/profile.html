@@ -60,6 +60,10 @@
 			</div>
 			{% for motorcycle in offers|slice:":6" %}
 			<div class="column is-4-desktop is-6-tablet">
+				{% if request.user.id == motorcycle.user.id %}
+					<li class="list-inline-item"><a href="{% url 'store_app:update-offer' motorcycle.id %}">Редактировать</a></li>
+					<li class="list-inline-item"><a href="{% url 'store_app:delete-offer' motorcycle.id %}">Удалить</a></li>
+				{% endif %}
 				<li class="list-inline-item">Дата: {{ motorcycle.created_at|date:"D d M Y" }}</li>
 				<article class="mb-5">
 					<div class="post-slider slider-sm">
@@ -88,6 +92,10 @@
 			</div>
 			{% for article in news|slice:":6" %}
 			<div class="column is-4-desktop is-6-tablet">
+				{% if request.user.id == article.author.id %}
+					<li class="list-inline-item"><a href="{% url 'news_app:update_news' article.id %}">Редактировать</a></li>
+					<li class="list-inline-item"><a href="{% url 'news_app:delete_news' article.id %}">Удалить</a></li>
+				{% endif %}
 				<li class="list-inline-item">Дата : {{ article.created_at }}</li>
 				<article class="mb-5">
 					<div class="post-slider slider-sm">
