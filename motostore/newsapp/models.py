@@ -18,7 +18,7 @@ class Category(models.Model):
 
 
 class News(models.Model):
-    category = models.ForeignKey(Category, on_delete=models.PROTECT, verbose_name='Категория')
+    category = models.ManyToManyField(Category, verbose_name='Категория')
     title = models.CharField(max_length=250, unique=True, verbose_name='Заголовок')
     author = models.ForeignKey(StoreAppUser, on_delete=models.CASCADE, verbose_name='Автор')
     image = models.ImageField(upload_to=news_directory_path, blank=True)
@@ -33,3 +33,7 @@ class News(models.Model):
     class Meta:
         verbose_name = 'Новость'
         verbose_name_plural = 'Новости'
+
+    def get_category(self):
+        categories = self.category.all()
+        return ', '.join([category.name for category in categories])

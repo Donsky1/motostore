@@ -108,7 +108,7 @@ class Motorcycle(models.Model):
 
 
 class Motorcycle_images(models.Model):
-    image = models.ImageField(upload_to=offer_directory_path)
+    image = models.ImageField(upload_to=offer_directory_path, verbose_name='Картинка')
     moto = models.ForeignKey(Motorcycle, on_delete=models.CASCADE)
 
     def image_tag(self):
