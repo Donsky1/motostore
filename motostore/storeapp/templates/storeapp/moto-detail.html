@@ -16,6 +16,10 @@
 					</li>
 					<li class="list-inline-item">Город : {{ object.city }}</li>
 				</ul>
+				{% if request.user.id == motorcycle.user.id %}
+							<a href="{% url 'store_app:update-offer' pk=motorcycle.id %}" class="btn btn-outline-primary">Редактировать</a>
+							<a href="{% url 'store_app:delete-offer' pk=motorcycle.id %}" class="btn btn-outline-primary">Удалить</a>
+				{% endif %}
 				<div align="right">Цена:
 					  <div style="color: red; font-size: 30px; font-weight: bold;">{{ object.price}} ₽</div></div>
 			</div>
@@ -44,6 +48,7 @@
 					</table>
 					<p class="detail_p">Комментарий продавца:</p>
 					<p class="detail_p">{{ object.comment|slice:"1:-1" }}</p>
+
 				</div>
 			</div>
 		</article>

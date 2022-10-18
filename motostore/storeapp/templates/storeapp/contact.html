@@ -32,20 +32,9 @@
 				</div>
 			</div>
 			<div class="column md-6">
-				<form method="POST" action="#">
-					<div class="field">
-						<label class="label" for="name">Your Name (Required)</label>
-						<input type="text" name="name" id="name" class="input" required>
-					</div>
-					<div class="field">
-						<label class="label" for="email">Your Email Address (Required)</label>
-						<input type="email" name="email" id="email" class="input" required>
-					</div>
-					<div class="field">
-						<label class="label" for="message">Your Message Here</label>
-						<textarea name="message" id="message" class="input"></textarea>
-					</div>
-					<button type="submit" class="btn btn-primary">Send Now</button>
+				<form method="POST"> {% csrf_token %}
+					{{ form.as_p }}
+					<button type="submit" class="btn btn-primary">Отправить</button>
 				</form>
 			</div>
 		</div>

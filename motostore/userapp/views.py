@@ -1,11 +1,14 @@
 from django.contrib.auth import views as auth_views
-from .forms import UserLoginForm, StoreAppUserCreatingForm
+from rest_framework.authtoken.models import Token
 from django.views import generic
-from .models import StoreAppUser
 from django.urls import reverse_lazy
+from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
+
 from storeapp.models import Motorcycle
 from newsapp.models import News
+from .models import StoreAppUser
+from .forms import UserLoginForm, StoreAppUserCreatingForm
 
 
 # Create your views here.
@@ -37,3 +40,13 @@ class ProfileView(generic.DetailView):
         context['offers'] = Motorcycle.objects.filter(user=user)
         context['news'] = News.objects.filter(author=user)
         return context
+
+
+def generate_token(request):
+    user = request.user
+    try:
+        user.auth_token.delete()
+        Token.objects.create(user=user)
+    except Exception as err:
+        Token.objects.create(user=user)
+    return HttpResponseRedirect(reverse_lazy('user_app:profile', kwargs={'pk': user.pk}))
