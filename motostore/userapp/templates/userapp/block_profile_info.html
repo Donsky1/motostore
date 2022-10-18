@@ -1,0 +1,21 @@
+<p>Онлайн: {{ object.is_active }}</p>
+<p></p>
+<p>Имя: {{ object.first_name }}</p>
+<p>Фамилия: {{ object.last_name }}</p>
+<p>Почта: {{ object.email }}</p>
+<p>Телефон: {{ object.phone }}</p>
+<p>Статус пользователя:
+{% if object.is_author %} Ньюсмейкер {% endif %}
+{% if object.is_staff %} Администрация {% else %} Пользователь {% endif %}
+</p>
+<p>О пользователе: {{ object.text }}</p>
+{% if user == object %}
+Ваш токен для доступа по API:
+        <p style="color: red" id="token">
+            {% if object.auth_token %}
+                {{ object.auth_token }}
+            {% else %}
+                отсутствует, для его получения нажмите кнопку "Generate token"
+            {% endif %}
+        </p>
+{% endif %}
