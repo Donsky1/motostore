@@ -4,6 +4,8 @@ from django.views import generic
 from .models import News
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
+from .forms import CreateNewsForm
+
 
 # Create your views here.
 class NewsView(generic.ListView):
@@ -19,14 +21,18 @@ class NewsDetailView(generic.DetailView):
 
 class CreateNewsView(LoginRequiredMixin, generic.CreateView):
     template_name = 'newsapp/create-news.html'
-    model = News
-    fields = '__all__'
+    form_class = CreateNewsForm
+    success_url = reverse_lazy('news_app:index_news')
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super(CreateNewsView, self).form_valid(form)
 
 
 class UpdateNewsView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView):
     template_name = 'newsapp/update-news.html'
+    form_class = CreateNewsForm
     model = News
-    fields = '__all__'
     permission_denied_message = 'Вы не можете редактировать эту новость'
 
     def test_func(self):

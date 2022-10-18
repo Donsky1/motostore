@@ -3,18 +3,20 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse_lazy
 from django.views import generic
-from django.http import HttpResponseRedirect, HttpResponseForbidden
-
-from .forms import MotorcycleForm, MotorcycleImagesInlineFormSet, MotorcycleImagesInlineFormCreateSet
-from .models import Motorcycle, Moto_models, Moto_type, City, Marks, Color, Motorcycle_images
+from django.http import HttpResponseRedirect, HttpResponse
 from django.db.models import Q
-from functools import wraps
+
+from .forms import MotorcycleForm, MotorcycleImagesInlineFormSet, MotorcycleImagesInlineFormCreateSet, ContactForm
+from .models import Motorcycle, Moto_models, Moto_type, City, Marks, Color
+from .decorators import owner_required
 
 
 class MotorcyclesView(generic.ListView):
     model = Motorcycle
     context_object_name = 'motorcycles'
     ordering = ['-created_at']
+    queryset = Motorcycle.active_offer.all()
+    paginate_by = 7
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -30,13 +32,13 @@ class IndexView(MotorcyclesView):
     template_name = 'storeapp/index.html'
 
 
-class TypeMotoView(MotorcyclesView):
+class TypeMotorcycleView(MotorcyclesView):
     template_name = 'storeapp/index.html'
     allow_empty = False
 
     def get_queryset(self):
         tag = self.kwargs['tag']
-        return Motorcycle.objects.filter(moto_type__name=tag)
+        return self.queryset.filter(moto_type__name=tag)
 
 
 class MotorcycleDetailView(generic.DetailView):
@@ -50,26 +52,35 @@ class MotorcycleDetailView(generic.DetailView):
         return super(MotorcycleDetailView, self).get_object()
 
 
-class AboutView(generic.TemplateView):
-    template_name = 'storeapp/about.html'
-
-
-class ContactView(generic.TemplateView):
+class ContactView(generic.FormView):
+    form_class = ContactForm
     template_name = 'storeapp/contact.html'
+    success_url = reverse_lazy('store_app:contact')
 
+    def send_message_to(self, name, email, message):
+        print(f'''
+        Уведомление с формы:
+        -------------------
+        Пользователь: {name}
+        Почта: {email}
+        Сообщение: {message}
+''')
 
-class TermsView(generic.TemplateView):
-    template_name = 'storeapp/terms-conditions.html'
+    def form_valid(self, form):
+        name = form.cleaned_data['your_name']
+        email = form.cleaned_data['email']
+        message = form.cleaned_data['message']
+        self.send_message_to(name, email, message)
+        return super(ContactView, self).form_valid(form)
 
 
 class SearchView(MotorcyclesView):
     template_name = 'storeapp/index.html'
 
     def get_queryset(self):
-        result = Motorcycle.objects.all()
         q = self.request.GET.get('q')
         if q:
-            result = result.select_related('mark_info', 'model_info', 'color', 'moto_type', 'city'). \
+            search_result = self.queryset.select_related('mark_info', 'model_info', 'color', 'moto_type', 'city'). \
                 filter(Q(mark_info__name__icontains=q) |
                        Q(model_info__name__icontains=q) |
                        Q(color__name__icontains=q) |
@@ -77,20 +88,22 @@ class SearchView(MotorcyclesView):
                        Q(city__name__icontains=q) |
                        Q(comment__icontains=q))
 
-        return result
+        return search_result
 
 
 class MotorcyclesFilterView(MotorcyclesView):
     template_name = 'storeapp/index.html'
 
     def get_queryset(self):
+        # filtering block
         city = self.request.GET.get('city')
         mark = self.request.GET.get('mark')
         model = self.request.GET.get('model')
         color = self.request.GET.get('color')
         price_from = self.request.GET.get('price_from')
         price_to = self.request.GET.get('price_to')
-        response = Motorcycle.objects.all()
+
+        response = self.queryset
         if city:
             response = response.filter(city__name=city)
         if mark:
@@ -111,25 +124,10 @@ class MotorcyclesFilterUserView(MotorcyclesView):
 
     def get_queryset(self):
         user = self.kwargs.get('user')
-        response = Motorcycle.objects.all()
+        response = self.queryset
         if user:
             response = response.filter(user__username=user)
         return response
-
-
-def owner_required(view):
-    '''Декоратор для проверки правомерности изменения объявления.
-    Только владелец объявления может вносить изменения'''
-    @wraps(view)
-    def wrapper(*args, **kwargs):
-        request = args[0]
-        id_offer = args[0].path.split('/')[2]
-        cur_offer = Motorcycle.objects.get(pk=id_offer)
-        if request.user.id == cur_offer.user.id:
-            return view(*args, **kwargs)
-        else:
-            return HttpResponseRedirect(reverse_lazy('store_app:index'))
-    return wrapper
 
 
 @login_required
@@ -156,7 +154,9 @@ def create_offer(request):
         form = MotorcycleForm(request.POST, request.FILES)
         image_formset = MotorcycleImagesInlineFormCreateSet(request.POST, request.FILES)
         if image_formset.is_valid() and form.is_valid():
-            offer = form.save()
+            offer = form.save(commit=False)
+            offer.user = request.user
+            offer.save()
             instances = image_formset.save(commit=False)
             for instance in instances:
                 instance.moto_id = offer.id

@@ -8,6 +8,11 @@ def offer_directory_path(instance, filename):
     return 'images/{0}/{1}'.format(instance.moto.id, filename)
 
 
+class ActiveManager(models.Manager):
+    def get_queryset(self):
+        return super(ActiveManager, self).get_queryset().filter(status=True)
+
+
 class NameModelMixin(models.Model):
     name = models.CharField(max_length=30, unique=True)
 
@@ -81,6 +86,10 @@ class Displacement(models.Model):
 
 # Основное объявление мототранспорта
 class Motorcycle(models.Model):
+
+    objects = models.Manager()      # default manager
+    active_offer = ActiveManager()  # specific manager
+
     status = models.BooleanField(default=False)
     # saleId - внутренний уникальный номер для парсинга с auto.ru
     mark_info = models.ForeignKey(Marks, on_delete=models.CASCADE, verbose_name='Марка')

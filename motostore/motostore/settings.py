@@ -40,6 +40,9 @@ INSTALLED_APPS = [
     'newsapp.apps.NewsappConfig',
     'storeapp.apps.StoreappConfig',
     'userapp.apps.UserappConfig',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'api.apps.ApiConfig',
     'django_cleanup.apps.CleanupConfig',
 ]
 
@@ -144,3 +147,18 @@ LOGOUT_REDIRECT_URL = '/'
 LOGIN_URL = '/users/login/'
 
 AUTH_USER_MODEL = 'userapp.StoreAppUser'
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ]
+}

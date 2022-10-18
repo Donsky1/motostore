@@ -10,4 +10,5 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(), name='logout'),
     path('registration/', views.RegistrationView.as_view(), name='registration'),
     path('profile/<int:pk>', views.ProfileView.as_view(), name='profile'),
+    path('generate-token/', views.generate_token, name='generate_token'),
 ]

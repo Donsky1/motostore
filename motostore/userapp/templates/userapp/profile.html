@@ -38,15 +38,30 @@
 				{% if object.is_staff %} Администрация {% else %} Пользователь {% endif %}
 				</p>
 				<p>О пользователе: {{ object.text }}</p>
-			</div>
-			<div>
-				<a href="#" class="btn-profile btn-outline-primary">Изменить профиль</a>
-			</div>
-
-			<div>
-				<a href="#" class="btn-profile btn-outline-primary">Generate token</a>
-			</div>
-		</div>
+				{% if user == object %}
+				Ваш токен для доступа по API:
+						<p style="color: red">
+							{% if object.auth_token %}
+								{{ object.auth_token }}
+							{% else %}
+								отсутствует, для его получения нажмите кнопку "Generate token"
+							{% endif %}
+						</p>
+					</div>
+						<form method="post" action="#">
+							{% csrf_token %}
+							<input type="submit" value="Change Profile" class="btn-profile btn-outline-primary">
+						</form>
+						<form method="post" action="{% url 'user_app:generate_token' %}">
+							{% csrf_token %}
+							<input type="submit" value="Generate token" class="btn-profile btn-outline-primary">
+						</form>
+						<form method="post" action="№">
+							{% csrf_token %}
+							<input type="submit" value="Change Password" class="btn-profile btn-outline-primary">
+						</form>
+					</div>
+				{% endif %}
 	</div>
 </section>
 
@@ -113,3 +128,4 @@
 	</div>
 </section>
 {% endblock %}
+
