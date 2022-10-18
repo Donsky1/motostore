@@ -2,8 +2,11 @@ from django.contrib.auth import views as auth_views
 from rest_framework.authtoken.models import Token
 from django.views import generic
 from django.urls import reverse_lazy
-from django.http import HttpResponseRedirect
-from django.shortcuts import redirect
+from django.http import HttpResponseRedirect, JsonResponse
+from django.shortcuts import redirect, render
+from django.contrib import messages
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm, UserChangeForm
 
 from storeapp.models import Motorcycle
 from newsapp.models import News
@@ -42,11 +45,46 @@ class ProfileView(generic.DetailView):
         return context
 
 
-def generate_token(request):
+def generate_token_ajax(request):
     user = request.user
     try:
         user.auth_token.delete()
-        Token.objects.create(user=user)
+        token = Token.objects.create(user=user)
     except Exception as err:
-        Token.objects.create(user=user)
-    return HttpResponseRedirect(reverse_lazy('user_app:profile', kwargs={'pk': user.pk}))
+        token = Token.objects.create(user=user)
+    return JsonResponse({'key': token.key})
+
+
+def change_password(request):
+    user = request.user
+    object = StoreAppUser.objects.get(pk=user.pk)
+    offers = Motorcycle.objects.filter(user=user)
+    news = News.objects.filter(author=user)
+
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important!
+            messages.success(request, 'Вы успешно обновили пароль!')
+            return HttpResponseRedirect(reverse_lazy('store_app:index'))
+        else:
+            messages.error(request, 'Пожалуйста, исправьте ошибку ниже.')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'userapp/profile_change_password.html', {
+        'form': form, 'object': object, 'offers': offers, 'news': news
+    })
+
+
+class ProfileUpdateView(generic.UpdateView):
+    model = StoreAppUser
+    fields = ('username', 'email', 'first_name', 'last_name', 'email', 'phone', 'text')
+    template_name = 'userapp/profile_update.html'
+    success_url = reverse_lazy('store_app:index')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['offers'] = Motorcycle.objects.filter(user=self.request.user)
+        context['news'] = News.objects.filter(author=self.request.user)
+        return context

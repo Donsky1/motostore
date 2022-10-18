@@ -23,8 +23,8 @@ urlpatterns = [
     path('', include('storeapp.urls', namespace='store_app')),
     path('news/', include('newsapp.urls', namespace='news_app')),
     path('users/', include('userapp.urls', namespace='user_app')),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('api/v0/', include('api.urls', namespace='api_v0')),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]
 
 if settings.DEBUG:

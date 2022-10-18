@@ -1,4 +1,5 @@
 from rest_framework import viewsets
+from rest_framework import authentication, permissions
 
 
 from storeapp.models import Marks, Moto_models, Moto_type, City, Motorcycle
@@ -20,6 +21,7 @@ class MotorcycleTypesViewSet(viewsets.ModelViewSet):
 class MarksViewSet(viewsets.ModelViewSet):
     queryset = Marks.objects.all()
     serializer_class = MarkSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
 
 class CityViewSet(viewsets.ModelViewSet):

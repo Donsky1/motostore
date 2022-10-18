@@ -10,5 +10,7 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(), name='logout'),
     path('registration/', views.RegistrationView.as_view(), name='registration'),
     path('profile/<int:pk>', views.ProfileView.as_view(), name='profile'),
-    path('generate-token/', views.generate_token, name='generate_token'),
+    path('generate-token-ajax/', views.generate_token_ajax),
+    path('password/', views.change_password, name='change_password'),
+    path('update-user/<int:pk>', views.ProfileUpdateView.as_view(), name='update_user'),
 ]

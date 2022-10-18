@@ -18,3 +18,4 @@ class StoreAppUserCreatingForm(UserCreationForm):
     class Meta:
             model = StoreAppUser
             fields = ('username', 'password1', 'password2', 'email',)
+
