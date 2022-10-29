@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'api.apps.ApiConfig',
+    'telegramapp.apps.TelegramappConfig',
     'django_cleanup.apps.CleanupConfig',
 ]
 

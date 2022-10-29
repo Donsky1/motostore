@@ -57,6 +57,7 @@ class ContactView(generic.FormView):
     template_name = 'storeapp/contact.html'
     success_url = reverse_lazy('store_app:contact')
 
+    # TODO send "mail"
     def send_message_to(self, name, email, message):
         print(f'''
         Уведомление с формы:
