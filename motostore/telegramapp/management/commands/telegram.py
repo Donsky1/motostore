@@ -1,10 +1,10 @@
 import telebot
 import requests
+import json
 from telebot.storage import StateMemoryStorage
 from telebot.handler_backends import State, StatesGroup
 from telebot import custom_filters
 from django.db.models import Q
-
 from telegramapp.management.telegram_config import TOKEN, PATH_TO_IMAGES
 from storeapp.models import Motorcycle
 
@@ -112,18 +112,6 @@ def displacement_motorcycle(request_state):
     return markup
 
 
-def menu_btn():
-    return telebot.types.InlineKeyboardMarkup(
-        [
-            [
-                telebot.types.InlineKeyboardButton('Вперед', callback_data='next_page'),
-                telebot.types.InlineKeyboardButton('1 из 100', callback_data='page'),
-                telebot.types.InlineKeyboardButton('Назад', callback_data='back_page'),
-            ]
-        ]
-    )
-
-
 def get_displacement(call):
     # print(call.data)
     return True
@@ -169,7 +157,6 @@ def get_result_motorcycles(moto_type, mark_info, model_info, displacement: list)
                        Q(mark_info__name=mark_info),
                        Q(displacement__number__gte=gte) | Q(displacement__number__lte=lte))
     return queryset
-
 
 
 @bot.message_handler(commands=['start'])
@@ -249,45 +236,119 @@ def callback_query_model(call):
                           reply_markup=result)
 
 
+def last_menu_btn(state):
+    json_string = json.loads(state)
+    id = json_string['id']
+    results = json_string['id_list']
+    count = len(results)
+    first_id = results[0]
+    last_id = results[-1]
+    print(id, results, count, first_id, last_id)
+    page = results.index(id) + 1
+    if count == 1:
+        return telebot.types.InlineKeyboardMarkup(
+            [
+                [
+                   telebot.types.InlineKeyboardButton(f'{page} из {count}', callback_data='#'),
+                ]
+            ]
+        )
+    if count > 1 and id == first_id:
+        return telebot.types.InlineKeyboardMarkup(
+            [
+                [
+                    telebot.types.InlineKeyboardButton('Вперед', callback_data='{\"method\": \"result\", \"id\":' + str(results[results.index(id) + 1]) + ',\"id_list\":' + str(results) + '}'),
+                    telebot.types.InlineKeyboardButton(f'{page} из {count}', callback_data='#'),
+                ]
+            ]
+        )
+    elif count > 1 and id == last_id:
+        return telebot.types.InlineKeyboardMarkup(
+            [
+                [
+                    telebot.types.InlineKeyboardButton(f'{page} из {count}', callback_data='#'),
+                    telebot.types.InlineKeyboardButton('Назад', callback_data='{\"method\": \"result\", \"id\":' + str(results[results.index(id) - 1]) + ',\"id_list\":' + str(results) + '}'),
+                ]
+            ]
+        )
+    else:
+        return telebot.types.InlineKeyboardMarkup(
+            [
+                [
+                    telebot.types.InlineKeyboardButton('Вперед',
+                                                       callback_data='{\"method\": \"result\", \"id\":' + str(results[results.index(id) + 1]) + ',\"id_list\":' + str(results) + '}'),
+                    telebot.types.InlineKeyboardButton(f'{page} из {count}', callback_data='#'),
+                    telebot.types.InlineKeyboardButton('Назад',
+                                                       callback_data='{\"method\": \"result\", \"id\":' + str(results[results.index(id) - 1]) + ',\"id_list\":' + str(results) + '}'),
+                ]
+            ]
+        )
+
+
 @bot.callback_query_handler(func=lambda call: 'result' in call.data)
 def callback_query_result(call):
-    with bot.retrieve_data(call.from_user.id, call.message.chat.id) as data:
-        try:
-            displacement = [int(disp) for disp in data.get('displacement_motorcycle').split(' ')]
-        except Exception:
-            displacement = [int(data.get('displacement_motorcycle'))]
+    if call.data == 'result':
+        with bot.retrieve_data(call.from_user.id, call.message.chat.id) as data:
+            try:
+                displacement = [int(disp) for disp in data.get('displacement_motorcycle').split(' ')]
+            except Exception:
+                displacement = [int(data.get('displacement_motorcycle'))]
 
-        queryset = get_result_motorcycles(moto_type=data.get('type_motorcycle'),
-                                          mark_info=data.get('mark_motorcycle'),
-                                          model_info=data.get('model_motorcycle'),
-                                          displacement=displacement)
-        for motorcycle in queryset:
-            msg = f"<b>{motorcycle.mark_info} {motorcycle.model_info}</b>\n\n" \
-                  f"Город: {motorcycle.city}\n" \
-                  f"Рейтинг просмотров: {motorcycle.rate}\n\n" \
-                  f"Тип: {motorcycle.moto_type}\n" \
-                  f"Объем дигателя: {motorcycle.displacement} см³\n" \
-                  f"Пробег: {motorcycle.mileage} км\n" \
-                  f"Мощность {motorcycle.horse_power} л.с\n" \
-                  f"Кол-во передач: {str(motorcycle.transmission).split('_')[-1]}\n" \
-                  f"Цвет мотоцикла: {motorcycle.color}\n\n" \
-                  f"Комметарий продавца: \n" \
-                  f"{motorcycle.comment[:100]} ...\n" \
-                  f"\n" \
-                  f"Цена: <b>{motorcycle.price}</b> руб.\n\n" \
-                  f"<u>Контакты:</u>\n" \
-                  f"Пользователь: {motorcycle.user.username}\n" \
-                  f"Телефон: {motorcycle.user.phone}\n" \
-                  f"Написать в телеграмм: <i>(в разработке)</i>\n"\
-                  f"Ссылка на объявление: {MAIN_URL}/motorcycle/{motorcycle.id}"
-            with open(PATH_TO_IMAGES + f'{motorcycle.motorcycle_images_set.first().image.url}', 'rb') as image:
-                bot.send_photo(call.message.chat.id, image, caption=msg, parse_mode='html', reply_markup=menu_btn())
-    bot.delete_state(call.from_user.id, call.message.chat.id)
+            queryset = get_result_motorcycles(moto_type=data.get('type_motorcycle'),
+                                              mark_info=data.get('mark_motorcycle'),
+                                              model_info=data.get('model_motorcycle'),
+                                              displacement=displacement)
 
-
-@bot.callback_query_handler(func=lambda call: call.data == 'back_page')
-def back(call):
-    pass
+            for motorcycle in queryset[:1]:
+                msg = f"<b>{motorcycle.mark_info} {motorcycle.model_info}</b>\n\n" \
+                      f"Город: {motorcycle.city}\n" \
+                      f"Рейтинг просмотров: {motorcycle.rate}\n\n" \
+                      f"Тип: {motorcycle.moto_type}\n" \
+                      f"Объем дигателя: {motorcycle.displacement} см³\n" \
+                      f"Пробег: {motorcycle.mileage} км\n" \
+                      f"Мощность {motorcycle.horse_power} л.с\n" \
+                      f"Кол-во передач: {str(motorcycle.transmission).split('_')[-1]}\n" \
+                      f"Цвет мотоцикла: {motorcycle.color}\n\n" \
+                      f"Комметарий продавца: \n" \
+                      f"{motorcycle.comment[:100]} ...\n" \
+                      f"\n" \
+                      f"Цена: <b>{motorcycle.price}</b> руб.\n\n" \
+                      f"<u>Контакты:</u>\n" \
+                      f"Пользователь: {motorcycle.user.username}\n" \
+                      f"Телефон: {motorcycle.user.phone}\n" \
+                      f"Написать в телеграмм: <i>(в разработке)</i>\n"\
+                      f"Ссылка на объявление: {MAIN_URL}/motorcycle/{motorcycle.id}"
+                with open(PATH_TO_IMAGES + f'{motorcycle.motorcycle_images_set.first().image.url}', 'rb') as image:
+                    bot.send_photo(call.message.chat.id, image, caption=msg, parse_mode='html',
+                                   reply_markup=last_menu_btn(state='{\"method\": \"result\", \"id\":' + str(motorcycle.id) + ',\"id_list\":' + str([motorcycle.id for motorcycle in queryset]) + '}'))
+        bot.delete_state(call.from_user.id, call.message.chat.id)
+    else:
+        json_string = json.loads(call.data)
+        pk = json_string['id']
+        id_list = json_string['id_list']
+        motorcycle = Motorcycle.active_offer.get(id=pk)
+        msg = f"<b>{motorcycle.mark_info} {motorcycle.model_info}</b>\n\n" \
+              f"Город: {motorcycle.city}\n" \
+              f"Рейтинг просмотров: {motorcycle.rate}\n\n" \
+              f"Тип: {motorcycle.moto_type}\n" \
+              f"Объем дигателя: {motorcycle.displacement} см³\n" \
+              f"Пробег: {motorcycle.mileage} км\n" \
+              f"Мощность {motorcycle.horse_power} л.с\n" \
+              f"Кол-во передач: {str(motorcycle.transmission).split('_')[-1]}\n" \
+              f"Цвет мотоцикла: {motorcycle.color}\n\n" \
+              f"Комметарий продавца: \n" \
+              f"{motorcycle.comment[:100]} ...\n" \
+              f"\n" \
+              f"Цена: <b>{motorcycle.price}</b> руб.\n\n" \
+              f"<u>Контакты:</u>\n" \
+              f"Пользователь: {motorcycle.user.username}\n" \
+              f"Телефон: {motorcycle.user.phone}\n" \
+              f"Написать в телеграмм: <i>(в разработке)</i>\n" \
+              f"Ссылка на объявление: {MAIN_URL}/motorcycle/{motorcycle.id}"
+        with open(PATH_TO_IMAGES + f'{motorcycle.motorcycle_images_set.first().image.url}', 'rb') as image:
+            bot.send_photo(call.message.chat.id, image, caption=msg, parse_mode='html',
+                           reply_markup=last_menu_btn(state='{\"method\": \"result\", \"id\":' + str(
+                               motorcycle.id) + ',\"id_list\":' + str(id_list) + '}'))
 
 
 bot.add_custom_filter(custom_filters.StateFilter(bot))
