@@ -113,7 +113,6 @@ def displacement_motorcycle(request_state):
 
 
 def get_displacement(call):
-    # print(call.data)
     return True
 
 
@@ -157,6 +156,79 @@ def get_result_motorcycles(moto_type, mark_info, model_info, displacement: list)
                        Q(mark_info__name=mark_info),
                        Q(displacement__number__gte=gte) | Q(displacement__number__lte=lte))
     return queryset
+
+
+def last_menu_btn(state):
+    json_string = json.loads(state)
+    id = json_string['id']
+    results = json_string['id_list']
+    count = len(results)
+    first_id = results[0]
+    last_id = results[-1]
+    page = results.index(id) + 1
+    if count == 1:
+        return telebot.types.InlineKeyboardMarkup(
+            [
+                [
+                   telebot.types.InlineKeyboardButton(f'{page} из {count}', callback_data='#'),
+                ]
+            ]
+        )
+    if count > 1 and id == first_id:
+        return telebot.types.InlineKeyboardMarkup(
+            [
+                [
+                    telebot.types.InlineKeyboardButton('Вперед', callback_data='{\"method\": \"result\", \"id\":' + str(results[results.index(id) + 1]) + ',\"id_list\":' + str(results) + '}'),
+                    telebot.types.InlineKeyboardButton(f'{page} из {count}', callback_data='#'),
+                ]
+            ]
+        )
+    elif count > 1 and id == last_id:
+        return telebot.types.InlineKeyboardMarkup(
+            [
+                [
+                    telebot.types.InlineKeyboardButton(f'{page} из {count}', callback_data='#'),
+                    telebot.types.InlineKeyboardButton('Назад', callback_data='{\"method\": \"result\", \"id\":' + str(results[results.index(id) - 1]) + ',\"id_list\":' + str(results) + '}'),
+                ]
+            ]
+        )
+    else:
+        return telebot.types.InlineKeyboardMarkup(
+            [
+                [
+                    telebot.types.InlineKeyboardButton('Вперед',
+                                                       callback_data='{\"method\": \"result\", \"id\":' + str(results[results.index(id) + 1]) + ',\"id_list\":' + str(results) + '}'),
+                    telebot.types.InlineKeyboardButton(f'{page} из {count}', callback_data='#'),
+                    telebot.types.InlineKeyboardButton('Назад',
+                                                       callback_data='{\"method\": \"result\", \"id\":' + str(results[results.index(id) - 1]) + ',\"id_list\":' + str(results) + '}'),
+                ]
+            ]
+        )
+
+
+def _get_motorcycle_offer(motorcycle):
+    if motorcycle.user.telegram_account:
+        telegram_account = f"Написать в телеграмм: <a href='https://t.me/{motorcycle.user.telegram_account}'>{motorcycle.user.telegram_account}</a>\n"
+    else:
+        telegram_account = ''
+
+    return f"<b>{motorcycle.mark_info} {motorcycle.model_info}</b>\n\n" \
+    f"Город: {motorcycle.city}\n" \
+    f"Рейтинг просмотров: {motorcycle.rate}\n\n" \
+    f"Тип: {motorcycle.moto_type}\n" \
+    f"Объем дигателя: {motorcycle.displacement} см³\n" \
+    f"Пробег: {motorcycle.mileage} км\n" \
+    f"Мощность {motorcycle.horse_power} л.с\n" \
+    f"Кол-во передач: {str(motorcycle.transmission).split('_')[-1]}\n" \
+    f"Цвет мотоцикла: {motorcycle.color}\n\n" \
+    f"Комметарий продавца: \n" \
+    f"{motorcycle.comment[:100]} ...\n" \
+    f"\n" \
+    f"Цена: <b>{motorcycle.price}</b> руб.\n\n" \
+    f"<u>Контакты:</u>\n" \
+    f"Пользователь: {motorcycle.user.username}\n" \
+    f"Телефон: {motorcycle.user.phone}\n" + telegram_account + \
+    f"Ссылка на объявление: <a href='{MAIN_URL}/motorcycle/{motorcycle.id}'>ссылка</a>"
 
 
 @bot.message_handler(commands=['start'])
@@ -236,55 +308,6 @@ def callback_query_model(call):
                           reply_markup=result)
 
 
-def last_menu_btn(state):
-    json_string = json.loads(state)
-    id = json_string['id']
-    results = json_string['id_list']
-    count = len(results)
-    first_id = results[0]
-    last_id = results[-1]
-    print(id, results, count, first_id, last_id)
-    page = results.index(id) + 1
-    if count == 1:
-        return telebot.types.InlineKeyboardMarkup(
-            [
-                [
-                   telebot.types.InlineKeyboardButton(f'{page} из {count}', callback_data='#'),
-                ]
-            ]
-        )
-    if count > 1 and id == first_id:
-        return telebot.types.InlineKeyboardMarkup(
-            [
-                [
-                    telebot.types.InlineKeyboardButton('Вперед', callback_data='{\"method\": \"result\", \"id\":' + str(results[results.index(id) + 1]) + ',\"id_list\":' + str(results) + '}'),
-                    telebot.types.InlineKeyboardButton(f'{page} из {count}', callback_data='#'),
-                ]
-            ]
-        )
-    elif count > 1 and id == last_id:
-        return telebot.types.InlineKeyboardMarkup(
-            [
-                [
-                    telebot.types.InlineKeyboardButton(f'{page} из {count}', callback_data='#'),
-                    telebot.types.InlineKeyboardButton('Назад', callback_data='{\"method\": \"result\", \"id\":' + str(results[results.index(id) - 1]) + ',\"id_list\":' + str(results) + '}'),
-                ]
-            ]
-        )
-    else:
-        return telebot.types.InlineKeyboardMarkup(
-            [
-                [
-                    telebot.types.InlineKeyboardButton('Вперед',
-                                                       callback_data='{\"method\": \"result\", \"id\":' + str(results[results.index(id) + 1]) + ',\"id_list\":' + str(results) + '}'),
-                    telebot.types.InlineKeyboardButton(f'{page} из {count}', callback_data='#'),
-                    telebot.types.InlineKeyboardButton('Назад',
-                                                       callback_data='{\"method\": \"result\", \"id\":' + str(results[results.index(id) - 1]) + ',\"id_list\":' + str(results) + '}'),
-                ]
-            ]
-        )
-
-
 @bot.callback_query_handler(func=lambda call: 'result' in call.data)
 def callback_query_result(call):
     if call.data == 'result':
@@ -300,24 +323,7 @@ def callback_query_result(call):
                                               displacement=displacement)
 
             for motorcycle in queryset[:1]:
-                msg = f"<b>{motorcycle.mark_info} {motorcycle.model_info}</b>\n\n" \
-                      f"Город: {motorcycle.city}\n" \
-                      f"Рейтинг просмотров: {motorcycle.rate}\n\n" \
-                      f"Тип: {motorcycle.moto_type}\n" \
-                      f"Объем дигателя: {motorcycle.displacement} см³\n" \
-                      f"Пробег: {motorcycle.mileage} км\n" \
-                      f"Мощность {motorcycle.horse_power} л.с\n" \
-                      f"Кол-во передач: {str(motorcycle.transmission).split('_')[-1]}\n" \
-                      f"Цвет мотоцикла: {motorcycle.color}\n\n" \
-                      f"Комметарий продавца: \n" \
-                      f"{motorcycle.comment[:100]} ...\n" \
-                      f"\n" \
-                      f"Цена: <b>{motorcycle.price}</b> руб.\n\n" \
-                      f"<u>Контакты:</u>\n" \
-                      f"Пользователь: {motorcycle.user.username}\n" \
-                      f"Телефон: {motorcycle.user.phone}\n" \
-                      f"Написать в телеграмм: <i>(в разработке)</i>\n"\
-                      f"Ссылка на объявление: {MAIN_URL}/motorcycle/{motorcycle.id}"
+                msg = _get_motorcycle_offer(motorcycle)
                 with open(PATH_TO_IMAGES + f'{motorcycle.motorcycle_images_set.first().image.url}', 'rb') as image:
                     bot.send_photo(call.message.chat.id, image, caption=msg, parse_mode='html',
                                    reply_markup=last_menu_btn(state='{\"method\": \"result\", \"id\":' + str(motorcycle.id) + ',\"id_list\":' + str([motorcycle.id for motorcycle in queryset]) + '}'))
@@ -327,24 +333,7 @@ def callback_query_result(call):
         pk = json_string['id']
         id_list = json_string['id_list']
         motorcycle = Motorcycle.active_offer.get(id=pk)
-        msg = f"<b>{motorcycle.mark_info} {motorcycle.model_info}</b>\n\n" \
-              f"Город: {motorcycle.city}\n" \
-              f"Рейтинг просмотров: {motorcycle.rate}\n\n" \
-              f"Тип: {motorcycle.moto_type}\n" \
-              f"Объем дигателя: {motorcycle.displacement} см³\n" \
-              f"Пробег: {motorcycle.mileage} км\n" \
-              f"Мощность {motorcycle.horse_power} л.с\n" \
-              f"Кол-во передач: {str(motorcycle.transmission).split('_')[-1]}\n" \
-              f"Цвет мотоцикла: {motorcycle.color}\n\n" \
-              f"Комметарий продавца: \n" \
-              f"{motorcycle.comment[:100]} ...\n" \
-              f"\n" \
-              f"Цена: <b>{motorcycle.price}</b> руб.\n\n" \
-              f"<u>Контакты:</u>\n" \
-              f"Пользователь: {motorcycle.user.username}\n" \
-              f"Телефон: {motorcycle.user.phone}\n" \
-              f"Написать в телеграмм: <i>(в разработке)</i>\n" \
-              f"Ссылка на объявление: {MAIN_URL}/motorcycle/{motorcycle.id}"
+        msg = _get_motorcycle_offer(motorcycle)
         with open(PATH_TO_IMAGES + f'{motorcycle.motorcycle_images_set.first().image.url}', 'rb') as image:
             bot.send_photo(call.message.chat.id, image, caption=msg, parse_mode='html',
                            reply_markup=last_menu_btn(state='{\"method\": \"result\", \"id\":' + str(

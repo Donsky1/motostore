@@ -4,6 +4,7 @@
 <p>Фамилия: {{ object.last_name }}</p>
 <p>Почта: {{ object.email }}</p>
 <p>Телефон: {{ object.phone }}</p>
+<p>Telegram: {% if object.telegram_account %} <a href="https://t.me/{{ object.telegram_account }}">{{ object.telegram_account }}</a> {% else %} не указан {% endif %}</p>
 <p>Статус пользователя:
 {% if object.is_author %} Ньюсмейкер {% endif %}
 {% if object.is_staff %} Администрация {% else %} Пользователь {% endif %}
