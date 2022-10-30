@@ -12,3 +12,4 @@ class StoreAppUser(AbstractUser):
     phone = models.CharField(max_length=12, null=True, blank=True)
     avatar = models.ImageField(upload_to=user_directory_path, null=True, blank=True)
     text = models.TextField(blank=True, null=True)
+    telegram_account = models.CharField(max_length=15, null=True, blank=True)
