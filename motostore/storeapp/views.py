@@ -3,12 +3,14 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse_lazy
 from django.views import generic
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse, Http404
 from django.db.models import Q
+import json
 
 from .forms import MotorcycleForm, MotorcycleImagesInlineFormSet, MotorcycleImagesInlineFormCreateSet, ContactForm
 from .models import Motorcycle, Moto_models, Moto_type, City, Marks, Color
 from .decorators import owner_required
+from .serializers import MotorcycleModelsSerializer
 
 
 class MotorcyclesView(generic.ListView):
@@ -17,23 +19,20 @@ class MotorcyclesView(generic.ListView):
     ordering = ['-created_at']
     queryset = Motorcycle.active_offer.all()
     paginate_by = 7
+    template_name = 'storeapp/index.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['moto_types'] = Moto_type.objects.all()
-        context['cities'] = City.objects.all()
-        context['marks'] = Marks.objects.all()
-        context['models'] = Moto_models.objects.all()
-        context['colors'] = Color.objects.all()
+        context['marks'] = {motorcycle.mark_info for motorcycle in self.queryset}
         return context
 
 
 class IndexView(MotorcyclesView):
-    template_name = 'storeapp/index.html'
+    pass
 
 
 class TypeMotorcycleView(MotorcyclesView):
-    template_name = 'storeapp/index.html'
     allow_empty = False
 
     def get_queryset(self):
@@ -76,43 +75,42 @@ class ContactView(generic.FormView):
 
 
 class SearchView(MotorcyclesView):
-    template_name = 'storeapp/index.html'
 
     def get_queryset(self):
         q = self.request.GET.get('q')
         if q:
-            search_result = self.queryset.select_related('mark_info', 'model_info', 'color', 'moto_type', 'city'). \
+            return self.queryset.select_related('mark_info', 'model_info', 'color', 'moto_type', 'city'). \
                 filter(Q(mark_info__name__icontains=q) |
                        Q(model_info__name__icontains=q) |
                        Q(color__name__icontains=q) |
                        Q(moto_type__name__icontains=q) |
                        Q(city__name__icontains=q) |
                        Q(comment__icontains=q))
-
-        return search_result
+        else:
+            return self.queryset
 
 
 class MotorcyclesFilterView(MotorcyclesView):
-    template_name = 'storeapp/index.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(MotorcyclesFilterView, self).get_context_data(**kwargs)
+        return context
 
     def get_queryset(self):
         # filtering block
-        city = self.request.GET.get('city')
         mark = self.request.GET.get('mark')
-        model = self.request.GET.get('model')
-        color = self.request.GET.get('color')
+        model_id = self.request.GET.get('model')
+        moto_type = self.request.GET.get('moto_type')
         price_from = self.request.GET.get('price_from')
         price_to = self.request.GET.get('price_to')
 
         response = self.queryset
-        if city:
-            response = response.filter(city__name=city)
         if mark:
             response = response.filter(mark_info__name=mark)
-        if model:
-            response = response.filter(model_info__name=model)
-        if color:
-            response = response.filter(color__name=color)
+        if model_id:
+            response = response.filter(model_info__id=model_id)
+        if moto_type:
+            response = response.filter(moto_type__name=moto_type)
         if price_from:
             response = response.filter(price__gte=price_from)
         if price_to:
@@ -121,7 +119,6 @@ class MotorcyclesFilterView(MotorcyclesView):
 
 
 class MotorcyclesFilterUserView(MotorcyclesView):
-    template_name = 'storeapp/index.html'
 
     def get_queryset(self):
         user = self.kwargs.get('user')
@@ -179,3 +176,11 @@ class MotorcycleDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.Dele
     def test_func(self):
         cur_obj = Motorcycle.objects.get(pk=self.kwargs['pk'])
         return self.request.user.id == cur_obj.user.id
+
+
+def get_filter_model_ajax(request):
+    mark = request.GET.get('model_name')
+    motorcycles = Motorcycle.active_offer.select_related('model_info', 'mark_info').filter(mark_info__name=mark)
+    models = {motorcycle.model_info for motorcycle in motorcycles}
+    serializer = MotorcycleModelsSerializer(models, many=True)
+    return JsonResponse(serializer.data, safe=False)

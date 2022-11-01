@@ -53,6 +53,7 @@
 
    <!-- latest post -->
 	{% include 'storeapp/block-better-post.html' %}
+
 	</aside>
 	</div>
 	<nav aria-label="Page navigation example">
@@ -77,4 +78,7 @@
 	</nav>
 	</div>
 </section>
+{% endblock %}
+{% block my_scripts %}
+<script type="text/javascript" src="{% static 'js/filter.js' %}"></script>
 {% endblock %}

@@ -1,5 +1,4 @@
 {% load static %}
-
 <html lang="en-us">
 
 <head>
@@ -106,8 +105,8 @@
             <!-- search -->
             <div class="search">
                <div class="search-wrapper">
-                  <form action="javascript:void(0)" class="h-100">
-                     <input class="search-box pl-4" id="search-query" name="s" type="search" placeholder="Type &amp; Hit Enter...">
+                  <form action="{% url 'store_app:search' %}" class="h-100">
+                     <input class="search-box pl-4" id="search-query" name="q" type="search" placeholder="Type &amp; Hit Enter...">
                   </form>
                   <button id="searchClose" class="search-close"><i class="ti-close text-dark"></i></button>
                </div>

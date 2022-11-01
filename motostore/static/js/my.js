@@ -7,3 +7,4 @@ $(document).on('click', '#ajax_gen_token', function(event) {
           },
         });
 });
+

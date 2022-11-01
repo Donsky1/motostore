@@ -26,6 +26,7 @@ urlpatterns = [
         path('update-offer/<int:pk>', views.update_offer, name='update-offer'),
         path('delete-offer/<int:pk>', views.MotorcycleDeleteView.as_view(), name='delete-offer'),
         path('motorcycles-filter/<str:user>', views.MotorcyclesFilterUserView.as_view(), name='motorcycle-filter-user'),
+        path('get-model-filter/', views.get_filter_model_ajax),
 ]
 
 
