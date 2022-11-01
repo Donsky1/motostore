@@ -13,6 +13,16 @@ class ActiveManager(models.Manager):
         return super(ActiveManager, self).get_queryset().filter(status=True)
 
 
+class TransalateMixin(models.Model):
+    translate = models.CharField(max_length=50, null=True, blank=True, verbose_name='перевод')
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        abstract = True
+
+
 class NameModelMixin(models.Model):
     name = models.CharField(max_length=30, unique=True)
 
@@ -38,7 +48,7 @@ class Moto_models(NameModelMixin):
 
 
 # Тип мотоцикла, к примеру спорттуризм
-class Moto_type(NameModelMixin):
+class Moto_type(NameModelMixin, TransalateMixin):
     class Meta:
         verbose_name_plural = 'Тип мотоцикла'
 
@@ -68,7 +78,7 @@ class City(NameModelMixin):
 
 
 # Кол-во передач, к примеру 6 ступенчатая
-class Transmission(NameModelMixin):
+class Transmission(NameModelMixin, TransalateMixin):
     class Meta:
         verbose_name_plural = 'Трансмиссия'
 
@@ -86,8 +96,7 @@ class Displacement(models.Model):
 
 # Основное объявление мототранспорта
 class Motorcycle(models.Model):
-
-    objects = models.Manager()      # default manager
+    objects = models.Manager()  # default manager
     active_offer = ActiveManager()  # specific manager
 
     status = models.BooleanField(default=False)
@@ -128,4 +137,3 @@ class Motorcycle_images(models.Model):
 
     def __str__(self):
         return self.image_tag()
-

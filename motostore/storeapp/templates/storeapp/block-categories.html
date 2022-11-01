@@ -17,7 +17,7 @@
         <select class="custom-select my-1 mr-sm-2" name="moto_type" id="moto_type">
             <option disabled selected>Выберите тип</option>
             {% for moto_type in moto_types %}
-                <option value="{{ moto_type }}">{{ moto_type }}</option>
+                <option value="{{ moto_type }}">{{ moto_type.translate }}</option>
             {% endfor %}
         </select>
 
