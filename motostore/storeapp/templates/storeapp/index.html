@@ -22,7 +22,7 @@
 							<li class="list-inline-item"><i class="ti-user mr-2"></i><a href="{% url 'store_app:motorcycle-filter-user' motorcycle.user %}">{{ motorcycle.user }}</a>
 							</li>
 <!--							<li class="list-inline-item">{{ motorcycle.created_at|date:"d M Y h:m:s" }}</li>-->
-							<li class="list-inline-item">Категория : <a href="{% url 'store_app:type-motorcycles' tag=motorcycle.moto_type %}" class="ml-1"> {{ motorcycle.moto_type }}</a></li>
+							<li class="list-inline-item">Категория : <a href="{% url 'store_app:type-motorcycles' tag=motorcycle.moto_type %}" class="ml-1"> {{ motorcycle.moto_type.translate }}</a></li>
 							<li class="list-inline-item">Город: {{ motorcycle.city }}</li>
 						</ul>
 						<div>Объем / мощность: {{ motorcycle.displacement }} см³ / {{ motorcycle.horse_power }} л.с.</div>

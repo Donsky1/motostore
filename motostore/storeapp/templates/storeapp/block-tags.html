@@ -2,7 +2,7 @@
   <h5 class="widget-title"><span>Тип мотоцикла</span></h5>
   <ul class="list-inline widget-list-inline">
 	  {% for tag in moto_types %}
-		<li class="list-inline-item"><a href="{% url 'store_app:type-motorcycles' tag=tag.name %}">{{ tag.name }}</a></li>
+		<li class="list-inline-item"><a href="{% url 'store_app:type-motorcycles' tag=tag.name %}">{{ tag.translate }}</a></li>
 	  {% endfor %}
   </ul>
 </div>

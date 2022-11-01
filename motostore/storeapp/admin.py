@@ -31,8 +31,13 @@ class Motorcycle_imagesAdmin(admin.ModelAdmin):
 
 
 class TypeModelAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name')
-    list_display_links = ('id', 'name')
+    list_display = ('id', 'name', 'translate')
+    list_display_links = ('id', 'name', 'translate')
+
+
+class TransmissionlAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'translate')
+    list_display_links = ('id', 'name', 'translate')
 
 
 admin.site.register(models.Marks)
@@ -40,7 +45,7 @@ admin.site.register(models.Moto_models)
 admin.site.register(models.Moto_type, TypeModelAdmin)
 admin.site.register(models.Color, ColorAdmin)
 admin.site.register(models.City)
-admin.site.register(models.Transmission)
+admin.site.register(models.Transmission, TransmissionlAdmin)
 admin.site.register(models.Displacement)
 admin.site.register(models.Motorcycle, MotorcycleAdmin)
 admin.site.register(models.Motorcycle_images, Motorcycle_imagesAdmin)
