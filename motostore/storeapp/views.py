@@ -138,7 +138,7 @@ def update_offer(request, pk):
         if image_formset.is_valid() and form.is_valid():
             form.save()
             image_formset.save()
-            return HttpResponseRedirect(reverse_lazy('user_app:profile', kwargs={'pk': request.user.id}))
+            return HttpResponseRedirect(reverse_lazy('store_app:motorcycle_detail', kwargs={'pk': pk}))
     else:
         form = MotorcycleForm(instance=obj_offer)
         image_formset = MotorcycleImagesInlineFormSet(instance=obj_offer)

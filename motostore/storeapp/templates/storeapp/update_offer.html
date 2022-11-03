@@ -1,26 +1,42 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-  <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <hr>
-        {% if image_formset %}
-        {{ image_formset.management_form  }}
-            {% for img_field in image_formset %}
-            <table border="1px">
-                <tr>
-                    <td><a href="/media/{{ img_field.image.initial }}"><img src="/media/{{ img_field.image.initial }}" width="150" height="150" /></a></td>
-                    <td>{{ img_field }}</td>
-                </tr>
-            {% endfor %}
-            </table>
-        {% endif %}
-    <input type="submit" value="update">
-  </form>
-</body>
-</html>
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Главная страница{% endblock %}
+
+{% block content %}
+<section class="section">
+	<div class="container">
+		<div class="columns is-desktop is-multiline">
+			<div class="column is-8-desktop">
+                  <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ form.non_field_errors }}
+                        {% for filed in form %}
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label" for="{{ filed.auto_id }}">{{ filed.label }}</label>
+                            <div class="col-sm-10">
+                                {{ filed }}
+                            </div>
+                        </div>
+                        {% endfor %}
+                        <hr>
+                      <h4>Изображения: </h4><br>
+                        {% if image_formset %}
+                        {{ image_formset.management_form  }}
+                            {% for img_field in image_formset %}
+                            <div class="form-group row">
+                                    <a href="/media/{{ img_field.image.initial }}"><img src="/media/{{ img_field.image.initial }}" width="150" height="150" /></a>
+                                    {% for element_image in img_field %}
+                                        <div>{{ element_image }}</div>
+                                    {% endfor %}
+                                    Удалить
+                            </div>
+                            {% endfor %}
+
+                        {% endif %}
+                    <input type="submit" value="update" class="btn btn-primary">
+                  </form>
+                </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

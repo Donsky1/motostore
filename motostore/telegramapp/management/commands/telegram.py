@@ -25,10 +25,10 @@ state_storage = StateMemoryStorage()
 bot = telebot.TeleBot(TOKEN, state_storage=state_storage)
 
 
-def FILTER_MOTORCYCLES(filter_str: str):
-    print(f'Сработал запрос к апи для полученния {filter_str} мотоцикла')
+def FILTER_MOTORCYCLES(filter_str: str, field: str = 'name'):
+    print(f'Сработал запрос по апи для полученния {filter_str} мотоцикла')
     response = requests.get(f'{MAIN_URL}{API_REQUEST}/{filter_str}/').json()
-    return [el['name'] for el in response['results']]
+    return [el[field] for el in response['results']]
 
 
 TYPES_MOTORCYCLE = FILTER_MOTORCYCLES('motorcycle-types')
@@ -215,7 +215,7 @@ def _get_motorcycle_offer(motorcycle):
     return f"<b>{motorcycle.mark_info} {motorcycle.model_info}</b>\n\n" \
     f"Город: {motorcycle.city}\n" \
     f"Рейтинг просмотров: {motorcycle.rate}\n\n" \
-    f"Тип: {motorcycle.moto_type}\n" \
+    f"Тип: {motorcycle.moto_type.translate}\n" \
     f"Объем дигателя: {motorcycle.displacement} см³\n" \
     f"Пробег: {motorcycle.mileage} км\n" \
     f"Мощность {motorcycle.horse_power} л.с\n" \

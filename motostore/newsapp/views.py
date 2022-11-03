@@ -12,6 +12,7 @@ class NewsView(generic.ListView):
     model = News
     template_name = 'newsapp/index-news.html'
     context_object_name = 'news'
+    paginate_by = 3
 
 
 class NewsDetailView(generic.DetailView):
@@ -20,7 +21,7 @@ class NewsDetailView(generic.DetailView):
 
 
 class CreateNewsView(LoginRequiredMixin, generic.CreateView):
-    template_name = 'newsapp/create-news.html'
+    template_name = 'newsapp/update-news.html'
     form_class = CreateNewsForm
     success_url = reverse_lazy('news_app:index_news')
 
@@ -34,6 +35,7 @@ class UpdateNewsView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView
     form_class = CreateNewsForm
     model = News
     permission_denied_message = 'Вы не можете редактировать эту новость'
+    success_url = reverse_lazy('news_app:index_news')
 
     def test_func(self):
         cur_news = News.objects.get(pk=self.kwargs['pk'])
