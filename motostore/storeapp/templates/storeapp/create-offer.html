@@ -1,15 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-  <form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    {{ image_formset.as_p }}
-    <input type="submit" value="save">
-  </form>
-</body>
-</html>
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Главная страница{% endblock %}
+
+{% block content %}
+<section class="section">
+	<div class="container">
+		<div class="columns is-desktop is-multiline">
+			<div class="column is-8-desktop">
+          <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            {{ image_formset.as_p }}
+            <input type="submit" value="save" class="btn btn-primary">
+          </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -6,6 +6,8 @@ $('select#mark').change(function(){
         url: '/get-model-filter/',
         data: {'model_name': selected_mark},
         success: function (data) {
+            console.log(data)
+            $('#test').html('<b>'+ data[0].name +'</b>')
             $('select#model').empty()
             for (i in data){
                 var mark_id = data[i].id
