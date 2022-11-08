@@ -184,3 +184,9 @@ def get_filter_model_ajax(request):
     models = {motorcycle.model_info for motorcycle in motorcycles}
     serializer = MotorcycleModelsSerializer(models, many=True)
     return JsonResponse(serializer.data, safe=False)
+
+
+def subscription(request):
+    email = request.POST.get('email_subscription')
+    print('Новый подписчик: ', email)
+    return HttpResponseRedirect(reverse_lazy('store_app:index'))

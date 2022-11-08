@@ -123,18 +123,17 @@
          <div class="columns is-multiline is-justify-content-space-between">
             <div class="column is-3-desktop">
                <a class="mb-5 is-block" href="index.html">
-                  <img class="" width="150px" src="images/logo.png" alt="LogBook">
+                  <img class="" width="150px" src="{% static 'images/favicon.png' %}"  alt="LogBook">
                </a>
-               <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.</p>
+               <p>Выбрал, купил и точка</p>
             </div>
 
             <div class="column is-2-widescreen is-3-desktop is-6">
                <h6 class="mb-4">Quick Links</h6>
                <ul class="list-unstyled footer-list">
-                  <li><a href="about.html">About</a></li>
-                  <li><a href="contact.html">Contact</a></li>
-                  <li><a href="privacy-policy.html">Privacy Policy</a></li>
-                  <li><a href="terms-conditions.html">Terms Conditions</a></li>
+                  <li><a href="{% url 'store_app:about' %}">О нас</a></li>
+                  <li><a href="{% url 'store_app:contact' %}">Контакты</a></li>
+                  <li><a href="{% url 'store_app:terms' %}">Услования</a></li>
                </ul>
             </div>
 
@@ -150,15 +149,17 @@
 
             <div class="column is-3-desktop">
                <h6 class="mb-4">Subscribe Newsletter</h6>
-               <form class="subscription" action="javascript:void(0)" method="post">
+               <form class="subscription" method="post" action="{% url 'store_app:subscription' %}">
+                  {% csrf_token %}
                   <div class="is-relative">
                      <i class="ti-email email-icon"></i>
-                     <input type="email" class="input" placeholder="Your Email Address">
+                     <input type="email" name="email_subscription" class="input" placeholder="Your Email Address">
                   </div>
-                  <button class="btn btn-primary w-100 rounded mt-2" type="submit">Subscribe now</button>
+                  <button class="btn btn-primary w-100 rounded mt-2" type="submit" >Subscribe now</button>
                </form>
             </div>
          </div>
+
          <div class="scroll-top">
             <a href="javascript:void(0);" id="scrollTop"><i class="ti-angle-up"></i></a>
          </div>

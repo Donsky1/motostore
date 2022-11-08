@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load storeapp_tags %}
 {% block title %}Главная страница{% endblock %}
 
 {% block content %}
@@ -61,8 +62,8 @@
 
 		{% if page_obj.has_previous %}
 		<li class="page-item">
-		  <a class="page-link" href="?page=1" >&laquo; firt</a>
-		  <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Prev.</a>
+		  <a class="page-link" href="?{% query_transform page=1 %}" >&laquo; firt</a>
+		  <a class="page-link" href="?{% query_transform page=page_obj.previous_page_number %}">Prev.</a>
 		</li>
 		{% endif %}
 
@@ -70,8 +71,8 @@
 
 		{% if page_obj.has_next %}
 		<li class="page-item">
-		  <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
-		  <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+		  <a class="page-link" href="?{% query_transform page=page_obj.next_page_number %}">Next</a>
+		  <a class="page-link" href="?{% query_transform page=page_obj.paginator.num_pages %}">last &raquo;</a>
 		</li>
 		{% endif %}
 	  </ul>
