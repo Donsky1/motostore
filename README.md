@@ -1,6 +1,6 @@
 # Motorcycle Store
 <p><img src='https://github.com/Donsky1/motostore/blob/main/motostore/static/images/logo.png'></p>
-<h3>Website Using Django</h3>
+<h2>Website Using Django</h2>
 
 Навигация по документации:
 <ul>
