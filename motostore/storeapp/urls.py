@@ -2,14 +2,6 @@ from django.urls import path, include
 from django.views import generic
 
 from . import views
-# from rest_framework import routers
-#
-# from storeapp.api_views import MarkViewSet, MotorcycleModelsViewSet, MotorcycleTypesViewSet
-#
-# router = routers.DefaultRouter()
-# router.register(r'marks', MarkViewSet)
-# router.register(r'motorcycle-models', MotorcycleModelsViewSet)
-# router.register(r'motorcycle-types', MotorcycleTypesViewSet)
 
 app_name = 'store_app'
 
@@ -27,8 +19,7 @@ urlpatterns = [
         path('delete-offer/<int:pk>', views.MotorcycleDeleteView.as_view(), name='delete-offer'),
         path('motorcycles-filter/<str:user>', views.MotorcyclesFilterUserView.as_view(), name='motorcycle-filter-user'),
         path('get-model-filter/', views.get_filter_model_ajax),
-        path('test/', generic.TemplateView.as_view(template_name='storeapp/test.html')),
-        path('table_test/', generic.TemplateView.as_view(template_name='storeapp/table_test.html')),
+        path('subscription/', views.subscription, name='subscription'),
 ]
 
 

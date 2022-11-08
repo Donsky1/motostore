@@ -100,14 +100,11 @@
 
   // back to top button
   $("#scrollTop").click(function (e) {
-    e.preventDefault();
-    $("html,body").animate(
-      {
-        scrollTop: 0,
-      },
-      1500,
-      "easeInOutExpo"
-    );
+    window.scroll({
+         top: 0,
+         left: 0,
+         behavior: 'smooth'
+        });
   });
 
   //post slider
@@ -346,3 +343,5 @@
     }
   });
 })(jQuery);
+
+
