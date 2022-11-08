@@ -89,6 +89,7 @@ manage.py makemigrations
 manage.py migrate  
 ```
 <p>6. На данный момент все готово, но данных пока у нас нет, поэтому выполним парсинг с сайта auto.ru.<p>
-  <p>6.1. Заходим на [auto.ru](https://auto.ru/motorcycle/all/)<p>
+  <p>6.1. Создаем config.py в директории storeapp/management/, т.е  должно получиться storeapp/management/config.py<p>
+  <p>6.1. Заходим на сайт в раздел мотоциклы [auto.ru](https://auto.ru/motorcycle/all/). <p>
 
 
