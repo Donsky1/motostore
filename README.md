@@ -93,6 +93,7 @@ manage.py migrate
   ```
 manage.py createsuperuser
 ```
+<h2>Парсинг объявлений с сайта auto.ru (в рамках обучения)</h2>
 <p>6. На данный момент все готово, но данных пока у нас нет, поэтому выполним парсинг с сайта auto.ru. Т.к сайт динамически обновляет контент, необходимо ...<p>
 <p>6.1. Создаем config.py в директории storeapp/management/, т.е  должно получиться storeapp/management/config.py<p>
 <p>6.2. Заходим на сайт в раздел мотоциклы [auto.ru](https://auto.ru/motorcycle/all/). Открываем инструменты разработчика Ctrl+Shift+I или F12<p>
