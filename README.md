@@ -10,6 +10,8 @@
   <li><a href='#installation'>Установка</a></li>
   <li><a href='#telegram'>Telegram Bot</a></li>
   <li><a href='#api'>API</a></li>
+    <li><a href='#curl_api_read'>API</a></li>
+    <li><a href='#curl_api_write'>API</a></li>
 </ul>
 
 <h2 id='overview'>Обзор</h2>
@@ -182,7 +184,13 @@ models: /api/v0/motorcycle-models/
 news: /api/v0/news/
 ...
 ```
-<p id='curl_api'>сURL API запрос на чтение</p> 
+<p id='curl_api_read'>сURL API запрос на чтение</p> 
+
+```
+curl -X GET http://website/api/v0/
+  
+```
+<p id='curl_api_write'>сURL API запрос на запись</p> 
 
 ```
 curl -X GET http://website/api/v0/
