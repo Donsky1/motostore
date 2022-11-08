@@ -2,17 +2,25 @@
 <p><img src='https://github.com/Donsky1/motostore/blob/main/motostore/static/images/logo.png'></p>
 <h3>Website Using Django</h3>
 
-<h2>Обзор</h2>
+Навигация по документации:
+<ul>
+  <li><a href='#overview'>Обзор</a></li>
+  <li><a href='#structure'>Структура сайта Motorcycle Store</a></li>
+  <li><a href='#feature'>Функциональность</a></li>
+  <li><a href='#installation'>Установка</a></li>
+  <li><a href='#telegram'>Telegram Bot</a></li>
+</ul>
+
+<h2 id='overview'>Обзор</h2>
 <p><b>Motorcycle Store</b> - интернет площадка  для размещения объявлений для юр и физ лиц посвященная продаже "мотоциклов".</p>
 <p>Данный сайт представляет из себя упрощенную версию классифайд площадки -  ресурса с объявлениями от физических и юридических лиц с различными предложениями, широко известных на просторах рунета <b>auto.ru</b> или <b>avito.ru</b>. Однако тут тематика узкоспециализированная, и это мотоциклы.</p>
-<a href='#telegram'>telegram</a>
 
 <br>
 <p><img src='https://github.com/Donsky1/motostore/blob/main/motostore/static/images/readme/main_page.png' align="center"></p>
 <br>
 <p>
 <img src='https://github.com/Donsky1/motostore/blob/main/motostore/static/images/favicon.png' width=300px align="right">
-<b>Структура сайта</b>:
+<b id='structure'>Структура сайта</b>:
 <ol>
   <li>Главная</li>
   <ul>
@@ -39,7 +47,7 @@
 </p>
 
 <br>
-<p><b>Функционал</b></p>
+<p id='feature'><b>Функционал</b></p>
 <img src='https://github.com/Donsky1/motostore/blob/main/motostore/static/images/readme/telegram_offer.png' width=320px align="right">
 <ul>
   <li>Парсер объявлений для заполнения БД с сайта auto.ru. (<i>Инструкция будет ниже</i>)</li>
@@ -63,7 +71,7 @@
 <img src='https://github.com/Donsky1/motostore/blob/main/motostore/static/images/readme/motorcycle.png'>
 <br>
 <br>
-<h2>Установка (действия будут выполнятся на windows)</h2>
+<h2 id='installation'>Установка (действия будут выполнятся на windows)</h2>
 <p>1. Создаем директорию, клонируем проект в эту папку ... <p>
 
 ```
