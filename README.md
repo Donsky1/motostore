@@ -8,6 +8,7 @@
   <li><a href='#structure'>Структура сайта Motorcycle Store</a></li>
   <li><a href='#feature'>Особенность</a></li>
   <li><a href='#installation'>Установка</a></li>
+  <li><a href='#parsing'>Парсинг объявлений</a></li>
   <li><a href='#telegram'>Telegram Bot</a></li>
   <li><a href='#api'>API</a></li>
     <ul>
@@ -25,7 +26,7 @@
 <br>
 <p>
 <img src='https://github.com/Donsky1/motostore/blob/main/motostore/static/images/favicon.png' width=300px align="right">
-<b id='structure'>Структура сайта</b>:
+<h2 id='structure'>Структура сайта</h2>:
 <ol>
   <li>Главная</li>
   <ul>
@@ -52,7 +53,7 @@
 </p>
 
 <br>
-<p id='feature'><b>Особенность</b></p>
+<h2 id='feature'>Особенность</h2>
 <img src='https://github.com/Donsky1/motostore/blob/main/motostore/static/images/readme/telegram_offer.png' width=320px align="right">
 <ul>
   <li>Парсер объявлений для заполнения БД с сайта auto.ru. (<i>Инструкция будет ниже</i>)</li>
@@ -76,7 +77,7 @@
 <img src='https://github.com/Donsky1/motostore/blob/main/motostore/static/images/readme/motorcycle.png'>
 <br>
 <br>
-<h2 id='installation'>Установка (действия будут выполнятся на windows)</h2>
+<h2 id='installation'>Установка</h2><i>(действия будут выполнятся на windows)</i>
 <p>1. Создаем директорию, клонируем проект в эту папку ... <p>
 
 ```
@@ -107,7 +108,7 @@ manage.py migrate
   ```
 manage.py createsuperuser
 ```
-<h2>Парсинг объявлений с сайта auto.ru (в рамках обучения)</h2>
+<h2 id='parsing'>Парсинг объявлений с сайта auto.ru</h2>
 <p>6. На данный момент все готово, но данных пока у нас нет, поэтому выполним парсинг с сайта auto.ru. Т.к сайт динамически обновляет контент, необходимо ...<p>
 <p>6.1. Создаем config.py в директории storeapp/management/, т.е  должно получиться storeapp/management/config.py<p>
 <p>6.2. Заходим на сайт в раздел мотоциклы [auto.ru](https://auto.ru/motorcycle/all/). Открываем инструменты разработчика Ctrl+Shift+I или F12<p>
@@ -137,7 +138,7 @@ manage.py runserver
 <p> Можно увидеть, что некоторые пункты меню недоступны для неавторизованных пользователей. Новостной раздел пока пустой, но можно смело зайти и создать их.<p>
 
 <br>
-<h2 id='telegram'>Запуск телеграм бота в синхронизации с сайтом</h2>
+<h2 id='telegram'>Телеграм бот в синхронизации с сайтом</h2>
 <i>Далее инструкция представлена из расчета, что пользователь уже знает, как создать пустого бота в телеграм, получить token</i><br><br>
 
 <p>1. Создаем файл telegram_config по следующей директории: telegramapp.management.<b>telegram_config</b><p>
