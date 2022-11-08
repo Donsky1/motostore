@@ -41,7 +41,7 @@
 <p><b>Функционал</b></p>
 <img src='https://github.com/Donsky1/motostore/blob/main/motostore/static/images/readme/telegram_offer.png' width=320px align="right">
 <ul>
-  <li>Парсер объявлений для заполнения БД с сайта auto.ru. <i>Инструкция ниже</i></li>
+  <li>Парсер объявлений для заполнения БД с сайта auto.ru. (<i>Инструкция будет ниже</i>)</li>
   <li>Система авторизации пользователей</li>
   <li>Пагинация на веб странице</li>
   <li>Права доступа</li>
