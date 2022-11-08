@@ -63,9 +63,13 @@
 <br>
 <br>
 <h2>Установка</h2>
-<p>Установка использую pip ... <p><br>
-```ruby
-require 'redcarpet'
-markdown = Redcarpet.new("Hello World!")
-puts markdown.to_html
+<p>1. Установка всех необходимых библиотек, используя pip ... <p>
+  
+```pip
+pip install -r requirements.txt
 ```
+<p>2. После установки перейти в каталог проекта <p>
+  ```cmd
+cd motostore
+```
+<p>3. После установки перейти в каталог проекта <p>
