@@ -64,6 +64,8 @@
 <br>
 <h2>Установка</h2>
 <p>Установка использую pip ... <p><br>
-```
-pip install -r requirements.txt
+```ruby
+require 'redcarpet'
+markdown = Redcarpet.new("Hello World!")
+puts markdown.to_html
 ```
