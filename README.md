@@ -89,7 +89,8 @@ manage.py makemigrations
 manage.py migrate  
 ```
 <p>6. На данный момент все готово, но данных пока у нас нет, поэтому выполним парсинг с сайта auto.ru.<p>
-  <p>6.1. Создаем config.py в директории storeapp/management/, т.е  должно получиться storeapp/management/config.py<p>
-  <p>6.1. Заходим на сайт в раздел мотоциклы [auto.ru](https://auto.ru/motorcycle/all/). <p>
-
-
+<p>6.1. Создаем config.py в директории storeapp/management/, т.е  должно получиться storeapp/management/config.py<p>
+<p>6.2. Заходим на сайт в раздел мотоциклы [auto.ru](https://auto.ru/motorcycle/all/). Открываем инструменты разработчика Ctrl+Shift+I или F12<p>
+<img src='https://github.com/Donsky1/motostore/blob/main/motostore/static/images/readme/auto1.png' width=300px>
+<p>6.3. Далее следуем инструкциям по картинке: <p>
+<img src='https://github.com/Donsky1/motostore/blob/main/motostore/static/images/readme/auto2.png' width=300px>
