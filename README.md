@@ -105,14 +105,14 @@ manage.py createsuperuser
 <img src='https://github.com/Donsky1/motostore/blob/main/motostore/static/images/readme/auto5.png' width=300px>
 <p>6.5. Получаем request запрос на языке python. (да там много языков, нам нужен python). Копируем словари cookies и headers в ранее созданный файл config.py.<p>
 <p>6.6. (Опционально) Словарь json_data можем изменить в файле fillstore,  именно в нем задаются параметры запроса. В целом достаточно изменять ключ "catalog_filter" в json_data. Параметры опять же можно узнать в раскодированной curl соманде <p>
-<p>6.5. Выполняем парсинг любой командой (-w --wait задает время ожидания между запросами, если не задано, то случайное число в диапазоне от 10 до 35 сек.): <p> 
+<p>6.7. Выполняем парсинг любой командой (-w --wait задает время ожидания между запросами, если не задано, то случайное число в диапазоне от 10 до 35 сек.): <p> 
 
 ```
 manage.py fillstore
 manage.py fillstore -w 30
 manage.py fillstore --wait 30
 ```
-<p>6.6. Запускаем сервер <p>
+<p>6.8. Запускаем сервер <p>
 ```
 manage.py runserver
 ```
