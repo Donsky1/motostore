@@ -88,7 +88,12 @@ manage.py makemigrations
   ```
 manage.py migrate  
 ```
-<p>6. На данный момент все готово, но данных пока у нас нет, поэтому выполним парсинг с сайта auto.ru.<p>
+<p>5.1 Создадим суперпользователя. Он нам понадобиться для парсинга. Именно на него будут заводиться все объявления<p>
+
+  ```
+manage.py createsuperuser
+```
+<p>6. На данный момент все готово, но данных пока у нас нет, поэтому выполним парсинг с сайта auto.ru. Т.к сайт динамически обновляет контент, необходимо ...<p>
 <p>6.1. Создаем config.py в директории storeapp/management/, т.е  должно получиться storeapp/management/config.py<p>
 <p>6.2. Заходим на сайт в раздел мотоциклы [auto.ru](https://auto.ru/motorcycle/all/). Открываем инструменты разработчика Ctrl+Shift+I или F12<p>
 <img src='https://github.com/Donsky1/motostore/blob/main/motostore/static/images/readme/auto1.png' width=300px>
