@@ -4,14 +4,14 @@
 
 <h2>Обзор</h2>
 <p><b>Motorcycle Store</b> - интернет площадка  для размещения объявлений для юр и физ лиц посвященная продаже "мотоциклов".</p>
-<p>Данный сайт представляет из себя упрощенную версию классифайд площадки -  ресурса с объявлениями от физических и юридических лиц с различными предложениями, типа широко известных на просторах рунета <b>auto.ru</b> или <b>avito.ru</b>. Однако тут тематика узкоспециализированная, и это мотоциклы.</p>
+<p>Данный сайт представляет из себя упрощенную версию классифайд площадки -  ресурса с объявлениями от физических и юридических лиц с различными предложениями, широко известных на просторах рунета <b>auto.ru</b> или <b>avito.ru</b>. Однако тут тематика узкоспециализированная, и это мотоциклы.</p>
 
 <br>
 <p><img src='https://github.com/Donsky1/motostore/blob/main/motostore/static/images/readme/main_page.png' align="center"></p>
 <br>
 <p>
 <img src='https://github.com/Donsky1/motostore/blob/main/motostore/static/images/favicon.png' width=300px align="right">
-Структура сайта:
+<b>Структура сайта</b>:
 <ol>
   <li>Главная</li>
   <ul>
@@ -39,7 +39,9 @@
 
 <br>
 <p><b>Функционал</b></p>
+<img src='https://github.com/Donsky1/motostore/blob/main/motostore/static/images/readme/telegram_offer.png' width=320px align="right">
 <ul>
+  <li>Парсер объявлений для заполнения БД с сайта auto.ru. <i>Инструкция ниже</i></li>
   <li>Система авторизации пользователей</li>
   <li>Пагинация на веб странице</li>
   <li>Права доступа</li>
@@ -57,4 +59,11 @@
   <li>Имеется блок часто просматриваемых объявлений</li>
 </ul>
 <br>
-<>
+<img src='https://github.com/Donsky1/motostore/blob/main/motostore/static/images/readme/motorcycle.png'>
+<br>
+<br>
+<h2>Установка</h2>
+<p>Установка использую pip ... <p><br>
+```
+pip install -r requirements.txt
+```
