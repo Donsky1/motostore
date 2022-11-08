@@ -155,7 +155,7 @@ manage.py telegram
  
 <br>
 <h2 id='api'>API</h2>
-<p>API функционал выполнен на библиотеке Django REST framework</p>
+<p>API функционал выполнен с использованием Django REST framework</p>
 <p>API Root запрос выполняется на <b>website/api/v0/</b><p>
 
 ```
