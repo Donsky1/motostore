@@ -94,3 +94,8 @@ manage.py migrate
 <img src='https://github.com/Donsky1/motostore/blob/main/motostore/static/images/readme/auto1.png' width=300px>
 <p>6.3. Далее следуем инструкциям по картинке: <p>
 <img src='https://github.com/Donsky1/motostore/blob/main/motostore/static/images/readme/auto2.png' width=300px>
+<img src='https://github.com/Donsky1/motostore/blob/main/motostore/static/images/readme/auto3.png' width=300px>
+<img src='https://github.com/Donsky1/motostore/blob/main/motostore/static/images/readme/auto4.png' width=300px>
+<p>6.4. Скопированный cURL  вставляем в любой cURL конвертер онлайн<p>
+<img src='https://github.com/Donsky1/motostore/blob/main/motostore/static/images/readme/auto5.png' width=300px>
+<p>6.5. Копируем cookies и headers в ранее созданный файл config.py<p>
