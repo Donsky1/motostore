@@ -26,7 +26,7 @@
 <br>
 <p>
 <img src='https://github.com/Donsky1/motostore/blob/main/motostore/static/images/favicon.png' width=300px align="right">
-<h2 id='structure'>Структура сайта</h2>:
+<h2 id='structure'>Структура сайта</h2>
 <ol>
   <li>Главная</li>
   <ul>
