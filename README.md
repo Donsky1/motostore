@@ -112,7 +112,8 @@ manage.py fillstore
 manage.py fillstore -w 30
 manage.py fillstore --wait 30
 ```
-<p>6.8. Запускаем сервер <p>
+<p>6.8. Запускаем сервер командой<p>
+  
 ```
 manage.py runserver
 ```
