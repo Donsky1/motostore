@@ -174,7 +174,7 @@ manage.py telegram
 ```
 /api/v0/
 ```
-<p>Остальные API запросы выполняется на <b>website/api/v0/<request></b><p>
+<p>Остальные API запросы выполняется на <b>website/api/v0/request</b><p>
 
 ```
 mark list: /api/v0/marks/
