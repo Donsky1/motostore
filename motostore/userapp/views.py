@@ -79,7 +79,7 @@ def change_password(request):
 
 class ProfileUpdateView(generic.UpdateView):
     model = StoreAppUser
-    fields = ('username', 'email', 'first_name', 'last_name', 'email', 'phone', 'telegram_account', 'text')
+    fields = ('username', 'email', 'first_name', 'last_name', 'email', 'phone', 'telegram_account', 'avatar', 'text')
     template_name = 'userapp/profile_update.html'
     success_url = reverse_lazy('store_app:index')
 
