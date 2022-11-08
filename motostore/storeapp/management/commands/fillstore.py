@@ -11,9 +11,22 @@ class Command(BaseCommand):
            'In this config file you must have cookies, headers from inspector code your browser' \
            '(F12 - Network - listing/ - copy). Before parsing need to add superuser.'
 
+    def add_arguments(self, parser):
+        parser.add_argument(
+            '-w',
+            '--wait',
+            action='store_true',
+            default=False,
+            help='Время ожидания между запросами. Если не указать, то рандом значение. '
+        )
+        parser.add_argument('wait_time', nargs='?', default=False, type=int)
+
     def handle(self, *args, **options):
         self.stdout.write('parsing start')
 
+        wait_params = options['wait_time'] if options['wait'] and options['wait_time'] else False
+
+        # можно большую часть запросов адресовать админ запросу
         json_data = {
             'year_from': 2000,
             'year_to': 2022,
@@ -22,23 +35,40 @@ class Command(BaseCommand):
             'displacement_from': 50,
             'displacement_to': 1800,
             'catalog_filter': [
-                {
-                    'mark': 'BMW',
-                    'model': 'F_700_GS',
-                },
-                {
-                    'mark': 'YAMAHA',
-                    'model': 'XJ6',
-                },
-                {
-                    'mark': 'BMW',
-                    'model': 'F_650_GS',
-                },
-                # use a similar block if you want to add new group moto
+                # для упрощения можно менять только этот список
                 # {
                 #     'mark': 'YAMAHA',
                 #     'model': 'MT_03',
                 # },
+                {
+                    'mark': 'KTM',
+                    'model': '125_DUKE',
+                },
+                {
+                    'mark': 'KTM',
+                    'model': '125_SX',
+                },
+                {
+                    'mark': 'KTM',
+                    'model': '1290_SUPER_ADVENTURE_R',
+                },
+                {
+                    'mark': 'KTM',
+                    'model': '1290_SUPER_ADVENTURE_S',
+                },
+                {
+                    'mark': 'KTM',
+                    'model': '1290_SUPER_DUKE_GT',
+                },
+                {
+                    'mark': 'KTM',
+                    'model': '1290_SUPER_DUKE_R',
+                },
+                {
+                    'mark': 'KTM',
+                    'model': 'ADVENTURE',
+                },
+
             ],
             'moto_category': 'MOTORCYCLE',
             # group: used, new, all
@@ -48,7 +78,8 @@ class Command(BaseCommand):
             'page': 1
         }
 
-        motocycles = Parsing('https://auto.ru/-/ajax/desktop/listing/', json_data=json_data, cookies=cookies, headers=headers)
-        motocycles.fill_db()
+        motorcycles = Parsing('https://auto.ru/-/ajax/desktop/listing/', json_data=json_data,
+                              cookies=cookies, headers=headers)
+        motorcycles.fill_db(wait_params=wait_params)
 
         self.stdout.write("parsing end", ending='')

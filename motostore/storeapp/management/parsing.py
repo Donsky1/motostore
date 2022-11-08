@@ -2,6 +2,8 @@ import requests
 from lxml import html
 import os
 from tqdm import tqdm
+import random
+import time
 
 from storeapp.models import Marks, Moto_models, Moto_type, Color, City, Transmission, Displacement, Motorcycle, \
     Motorcycle_images
@@ -108,72 +110,56 @@ class Parsing:
             img.write(r.content)
         return img_path_save.replace('media/', '')
 
-    def fill_db(self):
+    def fill_db(self, wait_params=False):
         total_info = self._get_total_info()
-        # pages = total_info['total_page_count']
+        # кол-во страниц удовлетворяющих условию
+        pages = total_info['total_page_count']
+        # pages = 1
+        print(f'Всего страниц нужно спарсить: {pages}')
+        print(f"Всего объявлений нужно спарсить: {total_info['total_offers_count']}")
 
-        pages = 1
         # moving on pages
         for page in range(1, pages + 1):
             self.json_data['page'] = page
+
+            # если не указано число, берется случайное в указанном ниже диапазоне
+            # для уменьшения нагрузки запросов на сервер
+            wait = random.randint(10, 35) if not wait_params else wait_params
+            time.sleep(wait)  # wait before sent request on page
+            print(f'Обрабатывается {page} страница, время ожидания {wait} сек')
+
             self._get_new_requests_post()
-            # total_offers_on_page = total_info['total_offers_on_page']
-            total_offers_on_page = 10
+            # можно поставить ограничения на кол-во просматриваемых объявлений тек. страницы
+            # total_offers_on_page = 10
+            total_offers_on_page = total_info['total_offers_on_page']
 
             # moving on offers
             for moto_number in tqdm(range(total_offers_on_page), f'Page: {page}'):
                 try:
-                    mark_info = self._get_mark_info(moto_number)
-                    if mark_info not in [mark.name for mark in Marks.objects.all()]:
-                        mark_info = Marks.objects.create(name=mark_info)
-                    else:
-                        mark_info = Marks.objects.get(name=mark_info)
+                    mark_info = Marks.objects.get_or_create(name=self._get_mark_info(moto_number))[0]
 
-                    model_info = self._get_model_info(moto_number)
-                    if model_info not in [model.name for model in Moto_models.objects.all()]:
-                        model_info = Moto_models.objects.create(name=model_info)
-                    else:
-                        model_info = Moto_models.objects.get(name=model_info)
+                    model_info = Moto_models.objects.get_or_create(name=self._get_model_info(moto_number))[0]
 
-                    type_moto = self._get_moto_type(moto_number)
-                    if type_moto not in [moto_type.name for moto_type in Moto_type.objects.all()]:
-                        type_moto = Moto_type.objects.create(name=type_moto)
-                    else:
-                        type_moto = Moto_type.objects.get(name=type_moto)
+                    type_moto = Moto_type.objects.get_or_create(name=self._get_moto_type(moto_number))[0]
 
-                    displacement = self._get_displacement(moto_number)
-                    if displacement not in [disp.number for disp in Displacement.objects.all()]:
-                        displacement = Displacement.objects.create(number=displacement)
-                    else:
-                        displacement = Displacement.objects.get(number=displacement)
+                    displacement = Displacement.objects.get_or_create(number=self._get_displacement(moto_number))[0]
 
                     color_hex = self._get_color(moto_number)
                     color_r = requests.get(f'https://www.thecolorapi.com/id?hex={color_hex}').json()
                     color_name = color_r['name']['value']
                     color_hex = '#' + color_hex
-                    if color_hex not in [color.color_hex for color in Color.objects.all()]:
-                        color = Color.objects.create(name=color_name, color_hex=color_hex)
-                    else:
-                        color = Color.objects.get(color_hex=color_hex)
+                    color = Color.objects.get_or_create(name=color_name, color_hex=color_hex)[0]
 
-                    transmission = self._get_transmission(moto_number)
-                    if transmission not in [transmissions.name for transmissions in Transmission.objects.all()]:
-                        transmission = Transmission.objects.create(name=transmission)
-                    else:
-                        transmission = Transmission.objects.get(name=transmission)
+                    transmission = Transmission.objects.get_or_create(name=self._get_transmission(moto_number))[0]
 
-                    city_name = self._get_region(moto_number)
-                    if city_name not in [city.name for city in City.objects.all()]:
-                        city = City.objects.create(name=city_name)
-                    else:
-                        city = City.objects.get(name=city_name)
+                    city = City.objects.get_or_create(name=self._get_region(moto_number))[0]
 
                     mileage = self._get_mileage(moto_number)
                     horse_power = self._get_horse_power(moto_number)
                     price = self._get_price(moto_number)
                     comment = self._get_comments(moto_number)
-                except KeyError as err:
-                    print(f'\nERROR({page}, {moto_number}): \n', err)
+                except Exception as err:
+                    print(f'\n ERROR(на {page} странице, объявление: {moto_number+1}), описание ошибки: {err}')
                     continue
 
                 current_motocycle = Motorcycle.objects.create(
@@ -200,6 +186,7 @@ class Parsing:
                 #                                                 image_link=img_link)
                 #     Motorcycle_images.objects.create(image=img_path, moto=current_motocycle)
                 # large images
+
                 list_large_images = self._get_list_images_large(moto_number)
                 for image_id, img_link in enumerate(list_large_images, 0):
                     img_path = self._save_image_and_return_path(current_motocycle.id,
