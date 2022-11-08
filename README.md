@@ -6,7 +6,7 @@
 <ul>
   <li><a href='#overview'>Обзор</a></li>
   <li><a href='#structure'>Структура сайта Motorcycle Store</a></li>
-  <li><a href='#feature'>Функциональность</a></li>
+  <li><a href='#feature'>Особенность</a></li>
   <li><a href='#installation'>Установка</a></li>
   <li><a href='#telegram'>Telegram Bot</a></li>
 </ul>
@@ -47,7 +47,7 @@
 </p>
 
 <br>
-<p id='feature'><b>Функционал</b></p>
+<p id='feature'><b>Особенность</b></p>
 <img src='https://github.com/Donsky1/motostore/blob/main/motostore/static/images/readme/telegram_offer.png' width=320px align="right">
 <ul>
   <li>Парсер объявлений для заполнения БД с сайта auto.ru. (<i>Инструкция будет ниже</i>)</li>
@@ -130,6 +130,7 @@ manage.py runserver
 <p>7. При попытке зайти на сайт мы увидим, что сайт будет пустым. Это связано с тем, что объявления которые спарсились находятся в неактивном статусе, т.е. их нужно активировать. Для этого заходим в админку: wedsite/admin. Логинимся под суперпользователем, которого создали в пунке 5.1. Далее в раздел мотоциклы, все выделяем галочкой и выполняем команду: "Опубликовать"<p>
 <p>8. Снова заходим на сайт.<p>
 <p> Можно увидеть, что некоторые пункты меню недоступны для неавторизованных пользователей. Новостной раздел пока пустой, но можно смело зайти и создать их.<p>
+
 <br>
 <h2 id='telegram'>Запуск телеграм бота в синхронизации с сайтом</h2>
 <i>Далее инструкция представлена из расчета, что пользователь уже знает, как создать пустого бота в телеграм, получить token</i><br>
@@ -150,3 +151,21 @@ manage.py telegram
 ```
 /start
 ```
+ 
+<br>
+<h2 id='api'>API</h2>
+<p>API функционал выполнен на библиотеке Django REST framework</p>
+<p>API Root запрос выполняется на <b>website/api/v0/</b><p>
+
+```
+/api/v0/
+```
+<p>Остальные API запросы выполняется на <b>website/api/v0/<request></b><p>
+
+```
+mark list: /api/v0/marks/
+models: /api/v0/motorcycle-models/
+news: /api/v0/news/
+...
+```
+  
