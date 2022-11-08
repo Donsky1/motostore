@@ -9,6 +9,7 @@
   <li><a href='#feature'>Особенность</a></li>
   <li><a href='#installation'>Установка</a></li>
   <li><a href='#telegram'>Telegram Bot</a></li>
+  <li><a href='#api'>API</a></li>
 </ul>
 
 <h2 id='overview'>Обзор</h2>
