@@ -12,8 +12,10 @@
   <li><a href='#telegram'>Telegram Bot</a></li>
   <li><a href='#api'>API</a></li>
     <ul>
-      <li><a href='#curl_api_read'>API read</a></li>
-      <li><a href='#curl_api_write'>API write</a></li>
+      <li><a href='#curl_api_read'>API запрос на чтение</a></li>
+      <li><a href='#curl_api_write'>API запрос на запись</a></li>
+      <li><a href='#curl_api_put'>API запрос на редактирование</a></li>
+      <li><a href='#curl_api_delete'>API запрос на удаление</a></li>
     </ul>
 </ul>
 
@@ -192,11 +194,28 @@ news: /api/v0/news/
 
 ```
 curl -X GET http://website/api/v0/
+curl -X GET http://website/api/v0/marks/ -u user:password
+curl -X GET http://website/api/v0/marks/ -H "Accept: application/json" -H "Authorization: Token token"
   
 ```
-<p id='curl_api_write'>сURL API запрос на запись</p> 
+<p id='curl_api_write'>сURL API запрос на запись</p>
+<i>Так как операции запись, редактирование и удаление доступна только авторизованным пользователям, то в запрос необходимо передать логин и пароль или токен (который можно получить в личном кабинете)</i> 
 
 ```
-curl -X GET http://website/api/v0/
-  
+curl -X POST http://website/api/v0/marks/ -u user:password -d "name=TestString"
+curl -X POST http://website/api/v0/marks/ -H "Accept: application/json" -H "Authorization: Token token" -d "name=TestString"
+```
+<p id='curl_api_put'>сURL API запрос на редактирование</p>
+<i>Так как операции запись, редактирование и удаление доступна только авторизованным пользователям, то в запрос необходимо передать логин и пароль или токен (который можно получить в личном кабинете)</i> 
+
+```
+curl -X PUT http://website/api/v0/marks/id/ -u user:password -d "name=NewString"
+curl -X PUT http://website/api/v0/marks/id/ -H "Accept: application/json" -H "Authorization: Token token" -d "name=NewString"
+```
+<p id='curl_api_delete'>сURL API запрос на удаление</p>
+<i>Так как операции запись, редактирование и удаление доступна только авторизованным пользователям, то в запрос необходимо передать логин и пароль или токен (который можно получить в личном кабинете)</i> 
+
+```
+curl -X DELETE http://website/api/v0/marks/id/ -u user:password
+curl -X DELETE http://website/api/v0/marks/id/ -H "Accept: application/json" -H "Authorization: Token token"
 ```
