@@ -17,6 +17,7 @@
       <li><a href='#curl_api_put'>API запрос на редактирование</a></li>
       <li><a href='#curl_api_delete'>API запрос на удаление</a></li>
     </ul>
+  <li><a href='#tags'>Теги</a></li>
 </ul>
 
 <h2 id='overview'>Обзор</h2>
@@ -220,4 +221,4 @@ curl -X DELETE http://website/api/v0/marks/id/ -H "Accept: application/json" -H 
 ```
 
 <br>
-<p>Использовалось в основном: <b>python, django, drf, Django REST framework, telebot, jquery, ajax, html, css, js, pillow, tqdm, requests</b></p>
+<p id='tags'>Использовалось в основном: <b>python, django, drf, Django REST framework, telebot, jquery, ajax, html, css, js, pillow, tqdm, requests</b></p>
