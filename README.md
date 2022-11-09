@@ -190,28 +190,28 @@ models: /api/v0/motorcycle-models/
 news: /api/v0/news/
 ...
 ```
-<p id='curl_api_read'>сURL API запрос на чтение</p> 
+<p id='curl_api_read'><b>сURL API запрос на чтение</b></p> 
 
 ```
 curl -X GET http://website/api/v0/
 curl -X GET http://website/api/v0/marks/ -u user:password
 curl -X GET http://website/api/v0/marks/ -H "Accept: application/json" -H "Authorization: Token token"
 ```
-<p id='curl_api_write'>сURL API запрос на запись</p>
+<p id='curl_api_write'><b>сURL API запрос на запись</b></p>
 <i>Так как операции запись, редактирование и удаление доступна только авторизованным пользователям, то в запрос необходимо передать логин и пароль или токен (который можно получить в личном кабинете)</i> 
 
 ```
 curl -X POST http://website/api/v0/marks/ -u user:password -d "name=TestString"
 curl -X POST http://website/api/v0/marks/ -H "Accept: application/json" -H "Authorization: Token token" -d "name=TestString"
 ```
-<p id='curl_api_put'>сURL API запрос на редактирование</p>
+<p id='curl_api_put'><b>сURL API запрос на редактирование</b></p>
 <i>Так как операции запись, редактирование и удаление доступна только авторизованным пользователям, то в запрос необходимо передать логин и пароль или токен (который можно получить в личном кабинете)</i> 
 
 ```
 curl -X PUT http://website/api/v0/marks/id/ -u user:password -d "name=NewString"
 curl -X PUT http://website/api/v0/marks/id/ -H "Accept: application/json" -H "Authorization: Token token" -d "name=NewString"
 ```
-<p id='curl_api_delete'>сURL API запрос на удаление</p>
+<p id='curl_api_delete'><b>сURL API запрос на удаление</b></p>
 <i>Так как операции запись, редактирование и удаление доступна только авторизованным пользователям, то в запрос необходимо передать логин и пароль или токен (который можно получить в личном кабинете)</i> 
 
 ```
