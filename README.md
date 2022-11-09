@@ -196,7 +196,6 @@ news: /api/v0/news/
 curl -X GET http://website/api/v0/
 curl -X GET http://website/api/v0/marks/ -u user:password
 curl -X GET http://website/api/v0/marks/ -H "Accept: application/json" -H "Authorization: Token token"
-  
 ```
 <p id='curl_api_write'>сURL API запрос на запись</p>
 <i>Так как операции запись, редактирование и удаление доступна только авторизованным пользователям, то в запрос необходимо передать логин и пароль или токен (который можно получить в личном кабинете)</i> 
