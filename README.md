@@ -220,4 +220,4 @@ curl -X DELETE http://website/api/v0/marks/id/ -H "Accept: application/json" -H 
 ```
 
 <br>
-<p>Использовалось в основном: <b>python, django, drf, Django REST framework, telebot, ajax, html, css, js, pillow, tqdm, requests</b></p>
+<p>Использовалось в основном: <b>python, django, drf, Django REST framework, telebot, jquery, ajax, html, css, js, pillow, tqdm, requests</b></p>
