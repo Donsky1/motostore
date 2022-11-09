@@ -21,6 +21,7 @@ class MotorcycleTypesViewSet(viewsets.ModelViewSet):
 class MarksViewSet(viewsets.ModelViewSet):
     queryset = Marks.objects.all()
     serializer_class = MarkSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
 
 class CityViewSet(viewsets.ModelViewSet):
