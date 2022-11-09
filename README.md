@@ -218,3 +218,6 @@ curl -X PUT http://website/api/v0/marks/id/ -H "Accept: application/json" -H "Au
 curl -X DELETE http://website/api/v0/marks/id/ -u user:password
 curl -X DELETE http://website/api/v0/marks/id/ -H "Accept: application/json" -H "Authorization: Token token"
 ```
+
+<br>
+<p>Использовалось в основном: <b>python, django, drf, Django REST framework, telebot, ajax, html, css, js, pillow, tqdm, requests</b></p>
