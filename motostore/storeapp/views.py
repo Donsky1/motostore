@@ -92,14 +92,10 @@ class SearchView(MotorcyclesView):
 
 class MotorcyclesFilterView(MotorcyclesView):
 
-    def get_context_data(self, **kwargs):
-        context = super(MotorcyclesFilterView, self).get_context_data(**kwargs)
-        return context
-
     def get_queryset(self):
         # filtering block
         mark = self.request.GET.get('mark')
-        model_id = self.request.GET.get('model')
+        model_name = self.request.GET.get('model')
         moto_type = self.request.GET.get('moto_type')
         price_from = self.request.GET.get('price_from')
         price_to = self.request.GET.get('price_to')
@@ -107,8 +103,8 @@ class MotorcyclesFilterView(MotorcyclesView):
         response = self.queryset
         if mark:
             response = response.filter(mark_info__name=mark)
-        if model_id:
-            response = response.filter(model_info__id=model_id)
+        if model_name:
+            response = response.filter(model_info__name=model_name)
         if moto_type:
             response = response.filter(moto_type__name=moto_type)
         if price_from:
@@ -179,7 +175,7 @@ class MotorcycleDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.Dele
 
 
 def get_filter_model_ajax(request):
-    mark = request.GET.get('model_name')
+    mark = request.GET.get('selected_mark')
     motorcycles = Motorcycle.active_offer.select_related('model_info', 'mark_info').filter(mark_info__name=mark)
     models = {motorcycle.model_info for motorcycle in motorcycles}
     serializer = MotorcycleModelsSerializer(models, many=True)
