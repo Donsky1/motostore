@@ -1,7 +1,7 @@
 <div class="widget">
     <h5 class="widget-title"><span>Фильтр</span></h5>
 
-    <form method="get" action="{% url 'store_app:filter-motorcycles' %}">
+    <form method="get" action="{% url 'store_app:filter-motorcycles' %}" id="filter-form">
 
         <select class="custom-select my-1 mr-sm-2" name="mark" id="mark">
                 <option disabled selected>Выберите марку</option>
@@ -23,10 +23,10 @@
 
         <div class="row">
             <div class="col">
-                <input type="number" class="form-control" placeholder="Цена от" name="price_from" min="1" step="1">
+                <input type="number" class="form-control" placeholder="Цена от" name="price_from" min="1" step="1" autocomplete="off">
             </div>
             <div class="col">
-                <input type="number" class="form-control" placeholder="Цена до" name="price_to" min="1" step="1">
+                <input type="number" class="form-control" placeholder="Цена до" name="price_to" min="1" step="1" autocomplete="off">
             </div>
         </div>
 
