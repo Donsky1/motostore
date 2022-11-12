@@ -161,6 +161,11 @@ manage.py loaddata db_json/news.json
 ```
 manage.py loaddata db_json/store.json
 ```
+<p>6.2.4 Загрузим изображения выполнив команду в django админ панели<p>
+ 
+```
+manage.py download-images.py 
+```
 <br>  
 <p>7. Снова заходим на сайт.<p>
   
