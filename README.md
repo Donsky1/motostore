@@ -10,8 +10,8 @@
   <li><a href='#feature'>Особенность</a></li>
   <li><a href='#installation'>Установка</a></li>
   <li><a href='#fillbd'>Заполнение данными</a></li>
-  <ul>
-      <li><a href='#parsing'>Вариант 1. Парсинг объявлений</a></li
+    <ul>
+      <li><a href='#parsing'>Вариант 1. Парсинг объявлений</a></li>
       <li><a href='#json-fill'>Вариант 2. Заполнить через JSON</a></li>
     </ul
   <li><a href='#telegram'>Telegram Bot</a></li>
@@ -161,7 +161,8 @@ manage.py loaddata db_json/news.json
 ```
 manage.py loaddata db_json/store.json
 ```
-<p>8. Снова заходим на сайт.<p>
+<br>  
+<p>7. Снова заходим на сайт.<p>
   
 
 <br>
