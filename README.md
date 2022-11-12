@@ -9,7 +9,11 @@
   <li><a href='#structure'>Структура сайта Motorcycle Store</a></li>
   <li><a href='#feature'>Особенность</a></li>
   <li><a href='#installation'>Установка</a></li>
-  <li><a href='#parsing'>Парсинг объявлений</a></li>
+  <li><a href='#fillbd'>Заполнение данными</a></li>
+  <ul>
+      <li><a href='#parsing'>Парсинг объявлений</a></li
+      <li><a href='#json-fill'>Заполнить через JSON</a></li>
+    </ul
   <li><a href='#telegram'>Telegram Bot</a></li>
   <li><a href='#api'>API</a></li>
     <ul>
@@ -113,7 +117,8 @@ manage.py migrate
   ```
 manage.py createsuperuser
 ```
-<h2 id='parsing'>Парсинг объявлений с сайта auto.ru</h2>
+<h2><a href='#fillbd'>Заполнение данными</a></h2>
+<h3 id='parsing'>Парсинг объявлений с сайта auto.ru</h3>
 <p>6. На данный момент все готово, но данных пока у нас нет, поэтому выполним парсинг с сайта auto.ru. Т.к сайт динамически обновляет контент, необходимо ...<p>
 <p>6.1. Создаем config.py в директории storeapp/management/, т.е  должно получиться storeapp/management/config.py<p>
 <p>6.2. Заходим на сайт в раздел мотоциклы [auto.ru](https://auto.ru/motorcycle/all/). Открываем инструменты разработчика Ctrl+Shift+I или F12<p>
