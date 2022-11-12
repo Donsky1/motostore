@@ -1,7 +1,6 @@
 let searchParams = new URLSearchParams(window.location.search)
 
 $( document ).ready(function() {
-    console.log( "ready!" );
     save_data();
 });
 
