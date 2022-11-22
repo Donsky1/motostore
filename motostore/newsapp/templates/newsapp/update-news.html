@@ -7,7 +7,7 @@
 	<div class="container">
 		<div class="columns is-desktop is-multiline">
 			<div class="column is-8-desktop">
-                 <form method="post">
+                 <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{ form.non_field_errors }}
                      <div class="form-group row">
@@ -35,7 +35,7 @@
                         <label for="{{ form.link.id_for_label }}" class="col-sm-2 col-form-label">{{ form.link.label }}:</label>
                          <div class="col-sm-10">{{ form.link }}</div>
                     </div>
-                <input type="submit" value="update" class="btn btn-primary">
+                <input type="submit" value="Применить" class="btn btn-primary">
                 </form>
 	        </div>
 	</div>

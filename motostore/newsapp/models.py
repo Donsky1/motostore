@@ -25,7 +25,7 @@ class News(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Дата обновления')
     text = models.TextField()
-    link = models.URLField(blank=True, max_length=500)
+    link = models.URLField(blank=True, max_length=500, null=True)
 
     def __str__(self):
         return self.title

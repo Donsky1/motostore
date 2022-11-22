@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
 from .models import News
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin, PermissionRequiredMixin
 
 from .forms import CreateNewsForm
 
@@ -13,6 +13,7 @@ class NewsView(generic.ListView):
     template_name = 'newsapp/index-news.html'
     context_object_name = 'news'
     paginate_by = 3
+    ordering = ('-created_at')
 
 
 class NewsDetailView(generic.DetailView):

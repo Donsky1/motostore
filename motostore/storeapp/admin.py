@@ -40,6 +40,8 @@ class ColorAdmin(admin.ModelAdmin):
 
 
 class Motorcycle_imagesAdmin(admin.ModelAdmin):
+    fields = ('image_tag', 'image', 'moto')
+    readonly_fields = ('image_tag',)
     list_display = ('image', 'moto')
     list_display_links = ('image', 'moto')
 

@@ -17,10 +17,11 @@ class CreateNewsForm(forms.ModelForm):
                            widget=forms.Textarea(attrs={
                                'class': 'form-control',
                            }))
-    link = forms.CharField(label='Описание новости',
+    link = forms.CharField(label='Ссылка на видео',
                            widget=forms.TextInput(attrs={
-                               'class': 'form-control',
-                           }))
+                               'class': 'form-control'
+                           }),
+                           required=False)
     image = forms.ImageField(label='Изображение')
 
     class Meta:
