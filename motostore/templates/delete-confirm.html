@@ -8,9 +8,9 @@
 			<div class="column is-8-desktop">
                 <form method="post">{% csrf_token %}
                     {% if object.mark_info %}
-                        <p>Вы уверены что хотите удалить "{{ object.mark_info }} {{ object.model_info }} {{ object.color }}"?</p>
+                        <p>Вы уверены что хотите удалить объявление о продаже: "{{ object.mark_info }} {{ object.model_info }} {{ object.color }}"?</p>
                     {% else %}
-                        <p>Вы уверены что хотите удалить "{{ object.title }}"?</p>
+                        <p>Вы уверены что хотите удалить новость: "{{ object.title }}"?</p>
                     {% endif %}
                     {{ form }}
                     <input type="submit" value="Подтвердить">

@@ -4,7 +4,7 @@ from userapp.models import StoreAppUser
 
 
 def offer_directory_path(instance, filename):
-    # file will be uploaded to MEDIA_ROOT/<id>/<filename>
+    # файл будет загружаться в MEDIA_ROOT/images/{0}/{1}
     return 'images/{0}/{1}'.format(instance.moto.id, filename)
 
 
@@ -17,14 +17,14 @@ class TransalateMixin(models.Model):
     translate = models.CharField(max_length=50, null=True, blank=True, verbose_name='перевод')
 
     def __str__(self):
-        return self.name
+        return self.translate
 
     class Meta:
         abstract = True
 
 
 class NameModelMixin(models.Model):
-    name = models.CharField(max_length=30, unique=True)
+    name = models.CharField(max_length=30, unique=True, verbose_name='Название')
 
     def __str__(self):
         return self.name
@@ -61,7 +61,7 @@ class Color(NameModelMixin):
 
     def color_view_(self):
         if self.color_hex:
-            return format_html('<table border="1" cellspacing="0" width="270px" height="30px"><tr><td colspan="2" '
+            return format_html('<table border="1" cellspacing="0" width="270px" height="40px"><tr><td colspan="2" '
                                'bgcolor="#{}" align="center"></td></tr></table>'.format(self.color_hex))
 
     def color_view(self):
@@ -127,13 +127,13 @@ class Motorcycle(models.Model):
 
 class Motorcycle_images(models.Model):
     image = models.ImageField(upload_to=offer_directory_path, verbose_name='Картинка')
-    moto = models.ForeignKey(Motorcycle, on_delete=models.CASCADE)
+    moto = models.ForeignKey(Motorcycle, on_delete=models.CASCADE, verbose_name='Ссылка на мотоцикл')
 
     def image_tag(self):
         if self.image:
-            return format_html('<a href="{}">'
-                               '<img src="{}" width="150" height="150" />'
-                               '</a>'.format(self.image.url, self.image.url))
+            return format_html('<a href="{image}">'
+                               '<img src="{image}" width="150" height="150" />'
+                               '</a>'.format(image=self.image.url))
 
     def __str__(self):
-        return self.image_tag()
+        return str(self.image)
