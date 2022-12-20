@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.html import format_html
 from userapp.models import StoreAppUser
+from django.contrib import admin
 
 
 def offer_directory_path(instance, filename):
@@ -64,6 +65,9 @@ class Color(NameModelMixin):
             return format_html('<table border="1" cellspacing="0" width="270px" height="40px"><tr><td colspan="2" '
                                'bgcolor="#{}" align="center"></td></tr></table>'.format(self.color_hex))
 
+    @property
+    @admin.display(description='Цвет',
+                   ordering='name')
     def color_view(self):
         if self.color_hex:
             return format_html('<table border="1" cellspacing="0" width="20px"'
@@ -129,6 +133,8 @@ class Motorcycle_images(models.Model):
     image = models.ImageField(upload_to=offer_directory_path, verbose_name='Картинка')
     moto = models.ForeignKey(Motorcycle, on_delete=models.CASCADE, verbose_name='Ссылка на мотоцикл')
 
+    @property
+    @admin.display(description='Вид картинки')
     def image_tag(self):
         if self.image:
             return format_html('<a href="{image}">'
