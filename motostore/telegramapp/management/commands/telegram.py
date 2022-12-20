@@ -263,6 +263,15 @@ def get_menu(message):
     bot.send_message(message.chat.id, 'Что выберешь?', reply_markup=menu)
 
 
+@bot.message_handler(content_types=['sticker'])
+def send_sticker_id(message):
+    bot.send_message(message.chat.id, f'This sticker id: {message.sticker.file_id}')
+
+
+@bot.message_handler(content_types=['emoji'])
+def send_sticker_id(message):
+    bot.send_message(message.chat.id, f'This emoji id')
+
 @bot.message_handler(content_types=['text'])
 def menu(message):
     if message.text == 'Открыть сайт в браузере':
